@@ -17,8 +17,12 @@ set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   message(SEND_ERROR "In-source builds are not allowed.")
 endif ()
+# ------------------------------
+
+file(GLOB SOURCES "src/*.cpp")
+add_executable(main ${SOURCES} main.cpp)
+
+target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 include_directories("/home/nfs/._off_mpich-4.0.1/include")
-
-add_executable(main main.cpp)
 target_link_libraries(main m)
