@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(ParallelGeneticTimetable)
+add_subdirectory(${PROJECT_SOURCE_DIR}/include/ext)
 
 set(CMAKE_CXX_COMPILER "/home/nfs/._off_mpich-4.0.1/bin/mpicxx")
 set(CMAKE_CXX_FLAGS "-Wall")
@@ -25,4 +26,4 @@ add_executable(main ${SOURCES} main.cpp)
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 include_directories("/home/nfs/._off_mpich-4.0.1/include")
-target_link_libraries(main m)
+target_link_libraries(main PUBLIC m ext)

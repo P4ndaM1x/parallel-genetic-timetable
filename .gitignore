@@ -1,3 +1,4 @@
 /nodes
 /build
 .cache
+.config.ini
