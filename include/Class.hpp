@@ -21,7 +21,7 @@ public:
     void setStartingHour(const time_type hour) { startingHour = hour; }
 
 private:
-    const id_type id;
-    const time_type durationTime;
+    id_type id;
+    time_type durationTime;
     time_type startingHour { 0 };
 };
