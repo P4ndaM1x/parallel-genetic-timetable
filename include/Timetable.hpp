@@ -13,8 +13,6 @@ public:
 
     using data_type = std::vector<Class>;
 
-    Timetable(std::initializer_list<Class> classList);
-
     void addClasses(std::initializer_list<Class> classList);
     data_type getClasses() const { return classes; }
     void setSolution(const data_type& classes) { this->classes = classes; }
