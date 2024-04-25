@@ -1,5 +1,5 @@
-#include "FileManager.hpp"
 #include "CLIManger.hpp"
+#include "FileManager.hpp"
 
 int main(int argc, char* argv[])
 {

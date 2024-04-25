@@ -1,4 +1,6 @@
 /nodes
 /build
 .cache
-.config.ini
+
+*.ini
+!test-config.ini

@@ -14,13 +14,22 @@ public:
         app.add_option("-d,--dir", sampleDataDirPath, "Path to directory with sample data")->required();
         app.set_config("--config");
 
-        CLI11_PARSE(app, argc, argv);
+        customParse(argc, argv);
         return 0;
     }
 
     inline static std::filesystem::path sampleDataDirPath;
 
 private:
+    static void customParse(int argc, char* argv[])
+    {
+        try {
+            app.parse(argc, argv);
+        } catch (const CLI ::ParseError& e) {
+            std::exit(app.exit(e));
+        }
+    }
+
     inline static CLI::App app { "Genetic Timetable Scheduling Algorithm" };
 };
 
