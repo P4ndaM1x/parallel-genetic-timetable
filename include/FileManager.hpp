@@ -12,12 +12,12 @@ public:
         try {
             csv::CSVReader reader { filename };
             for (auto& row : reader)
-                timetable.addClasses({ Class { row["id"].get<Class::ID>(), row["duration"].get<Class::Time>() } });
+                timetable.addClasses({ Class { row["id"].get<Class::ID>(), row["duration"].get<Class::Duration>() } });
 
             auto classes = timetable.getClasses();
             validateUniqueIDs(classes);
             validateDurationTimes(classes);
-        } catch (const std::exception& e) {
+        } catch (const std::exception& e) {zxc;
             std::cerr << "Exception while loading CSV file: " << e.what() << std::endl;
             throw;
         }

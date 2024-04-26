@@ -13,10 +13,6 @@ public:
 
     void addClasses(std::initializer_list<Class> classList);
     std::vector<Class> getClasses() const { return classes; }
-    void setSolution(const std::vector<Class>& classes) { this->classes = classes; }
-
-    void printClasses() const;
-    void printSolution() const;
 
 private:
     std::vector<Class> classes;

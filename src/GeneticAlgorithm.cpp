@@ -7,6 +7,15 @@ GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populati
     , numberOfGenerations { numberOfGenerations }
     , mutationRate { mutationRate }
 {
+    for(int i = 0; i < populationSize; i++)
+    {
+        this->population.push_bash(Chromosome(timetable.getClasses()));
+    }
+}
+
+std::vector<Chromosome> GeneticAlgorithm::getPopulation()
+{
+    return this->population;
 }
 
 void GeneticAlgorithm::initialize()

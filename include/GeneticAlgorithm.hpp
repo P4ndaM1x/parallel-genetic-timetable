@@ -10,10 +10,14 @@
 class GeneticAlgorithm {
 
 public:
-    GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate);
+    GeneticAlgorithm(Timetable& timetable
+    , const unsigned populationSize
+    , const unsigned numberOfGenerations
+    , const double mutationRate);
 
     // entry point for the algorithm
     void run();
+    std::vector<Chromosome> getPopulation();
 
 private:
     // Initialize the population with random chromosomes

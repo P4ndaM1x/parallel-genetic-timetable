@@ -1,10 +1,12 @@
 #pragma once
 
+#include <array>
+#include <list>
+#include <climits>
+
 #include "Class.hpp"
 #include "Timetable.hpp"
 
-#include <array>
-#include <list>
 
 class Chromosome {
 public:
@@ -16,9 +18,12 @@ public:
 
     void randomize();
     void mutate();
-    void fitness();
+    int calculateFitness();
+    int getFitness();
+    void printSolution();
 
 private:
     std::array<TimeSlot, Timetable::numberOfSlots> timeSlots;
     std::vector<Class> classes;
+    int fitness { INT_MAX } ;
 };
