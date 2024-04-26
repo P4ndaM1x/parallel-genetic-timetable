@@ -11,15 +11,13 @@ public:
     static constexpr unsigned slotsPerDay = 8;
     static constexpr std::size_t numberOfSlots = numberOfDays * slotsPerDay;
 
-    using data_type = std::vector<Class>;
-
     void addClasses(std::initializer_list<Class> classList);
-    data_type getClasses() const { return classes; }
-    void setSolution(const data_type& classes) { this->classes = classes; }
+    std::vector<Class> getClasses() const { return classes; }
+    void setSolution(const std::vector<Class>& classes) { this->classes = classes; }
 
     void printClasses() const;
     void printSolution() const;
 
 private:
-    data_type classes;
+    std::vector<Class> classes;
 };
