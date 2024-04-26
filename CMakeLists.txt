@@ -2,6 +2,15 @@ cmake_minimum_required(VERSION 3.13)
 project(ParallelGeneticTimetable)
 add_subdirectory(${PROJECT_SOURCE_DIR}/include/ext)
 
+add_custom_target(clear
+    COMMAND ${CMAKE_COMMAND} -E rm -r ${CMAKE_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}
+)
+
+add_custom_target(test
+    COMMAND ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
+)
+
 set(CMAKE_CXX_COMPILER "/home/nfs/._off_mpich-4.0.1/bin/mpicxx")
 set(CMAKE_CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
