@@ -12,7 +12,7 @@ public:
         try {
             csv::CSVReader reader { filename };
             for (auto& row : reader)
-                timetable.addClasses({ Class { row["id"].get<Class::id_type>(), row["duration"].get<Class::time_type>() } });
+                timetable.addClasses({ Class { row["id"].get<Class::ID>(), row["duration"].get<Class::Time>() } });
 
             auto classes = timetable.getClasses();
             validateUniqueIDs(classes);

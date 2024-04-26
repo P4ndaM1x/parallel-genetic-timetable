@@ -8,17 +8,17 @@
 
 class Chromosome {
 public:
-    using underlying_type = std::array<std::list<Class::id_type>, Timetable::numberOfSlots>;
+    using TimeSlot = std::vector<Class::ID>;
 
-    Chromosome(const Timetable::data_type& classes);
+    Chromosome(const std::vector<Class>& classes);
 
-    Timetable::data_type getClasses() const { return classes; }
+    std::vector<Class> getClasses() const { return classes; }
 
     void randomize();
     void mutate();
     void fitness();
 
 private:
-    underlying_type timeSlots;
-    Timetable::data_type classes;
+    std::array<TimeSlot, Timetable::numberOfSlots> timeSlots;
+    std::vector<Class> classes;
 };
