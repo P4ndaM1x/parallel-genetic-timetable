@@ -24,7 +24,7 @@ public:
     }
 
 private:
-    static void validateUniqueIDs(const std::vector<Class>& localClasses)
+    static void validateUniqueIDs(const Timetable::ClassContainer& localClasses)
     {
         auto classes = localClasses;
         auto it = std::unique(classes.begin(), classes.end(), [](auto a, auto b) { return a.getId() == b.getId(); });
@@ -33,7 +33,7 @@ private:
         }
     }
 
-    static void validateDurationTimes(const std::vector<Class>& localClasses)
+    static void validateDurationTimes(const Timetable::ClassContainer& localClasses)
     {
         auto classes = localClasses;
         auto found = std::any_of(classes.begin(), classes.end(), [](auto c) { return (c.getDurationTime() > Timetable::slotsPerDay); });

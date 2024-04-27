@@ -4,4 +4,4 @@
 
 *.ini
 !test-config.ini
-.vscode
+.vscode/

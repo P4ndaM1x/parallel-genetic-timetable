@@ -1,29 +1,28 @@
 #include "Chromosome.hpp"
 #include "Class.hpp"
+#include "Timetable.hpp"
 
 #include <cstdlib>
 
-Chromosome::Chromosome(const Timetable& timetable): timetable{timetable}
+Chromosome::Chromosome(const Timetable::ClassContainer& classes)
+    : classes { classes }
 {
-    this->init(timetable.getClasses());
+    this->init();
 }
 
 void Chromosome::printSolution()
 {
     std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
-    for(unsigned i = 0; i < Timetable::numberOfSlots; i++)
-    {
+    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
         stringBuffers[i] << i;
         stringBuffers[i] << ". ";
     }
 
-    for(unsigned i = 0; i < Timetable::numberOfSlots; i++)
-    {
+    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
 
         TimeSlot timeSlot = this->timeSlots[i];
-        for(unsigned j = 0; j < timeSlot.size(); j++)
-        {
+        for (unsigned j = 0; j < timeSlot.size(); j++) {
             stringBuffers[i] << "[";
             stringBuffers[i] << timeSlot[j];
             stringBuffers[i] << "]";
@@ -32,25 +31,21 @@ void Chromosome::printSolution()
 
     std::cout << "-----------------------------";
     for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
-        if(i % Timetable::slotsPerDay == 0)
-        {
+        if (i % Timetable::slotsPerDay == 0) {
             std::cout << "-----------------------------" << std::endl;
         }
         std::cout << stringBuffers[i].str() << std::endl;
     }
 }
 
-void Chromosome::init(const std::vector<Class>& classes)
+void Chromosome::init()
 {
-    for (const auto& c : classes) {
-        Class::Time start; 
-        Class::Time end;
-        do { 
-            start = std::rand() % (Timetable::numberOfSlots - c.getDurationTime());
-            end = start + c.getDurationTime();
-        } while (!this->isIntervalValid(start, end));
+    for (auto& c : this->classes) {
+        do {
+            c.setStartTime(std::rand() % (Timetable::numberOfSlots - c.getDurationTime()));
+        } while (!this->isIntervalValid(c.getStartTime(), c.getEndTime()));
 
-        for (auto i = start; i < end; i++) {
+        for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
         }
     }

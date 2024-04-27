@@ -9,7 +9,7 @@ GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populati
 {
     for(unsigned i = 0; i < populationSize; i++)
     {
-        this->population.push_back(Chromosome(timetable));
+        this->population.push_back(Chromosome{timetable.getClasses()});
     }
 }
 

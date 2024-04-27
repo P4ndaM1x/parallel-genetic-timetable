@@ -59,3 +59,29 @@ Secondly, execute binary with `mpiexec`, e.g. using provided script:
 
 - [Michał Rutkowski](https://github.com/P4ndaM1x)
 - [Eryk Zarębski](https://github.com/erzar0)
+
+
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "linux-gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false,
+                "databaseFilename": "${workspaceFolder}/.vscode/vc.db"
+            },
+            "compilerPath": "/usr/bin/g++"
+        }
+    ],
+    "version": 4
+}

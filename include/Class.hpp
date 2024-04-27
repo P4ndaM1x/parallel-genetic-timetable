@@ -4,6 +4,9 @@
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
+#include <string>
+
+#include "Timetable.hpp"
 
 class Class {
 public:
@@ -11,16 +14,13 @@ public:
     using Duration = uint32_t;
     using Time = uint32_t;
 
-    Class(const ID id, const Duration durationTime)
-        : id { id }
-        , durationTime { durationTime }
-    {
-        if (durationTime <= 0)
-            throw std::invalid_argument("Duration time must be greater than 0!");
-    }
+    Class(const ID id, const Duration durationTime);
 
     ID getId() const { return id; }
     Duration getDurationTime() const { return durationTime; }
+    Time getStartTime() const { return startTime; }
+    Time getEndTime() const { return startTime + durationTime; }
+    void setStartTime(const Time time) { startTime = time; }
 
     friend std::ostream& operator<<(std::ostream& os, const Class& c)
     {
@@ -33,4 +33,5 @@ public:
 private:
     ID id;
     Duration durationTime;
+    Time startTime { 0 };
 };

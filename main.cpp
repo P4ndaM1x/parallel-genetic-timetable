@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
     CLI::Args::prepare(argc, argv);
-
+    srand(time(NULL));
     const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
     Timetable timetable;
     FileManager::loadClasses(testFilePath, timetable);
