@@ -3,8 +3,6 @@
 #include "Chromosome.hpp"
 #include "Timetable.hpp"
 
-#include <algorithm>
-#include <random>
 #include <vector>
 
 class GeneticAlgorithm {

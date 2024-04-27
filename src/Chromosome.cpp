@@ -3,14 +3,19 @@
 #include "Timetable.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
-#include <limits>
+#include <iomanip>
 
-Chromosome::Chromosome(const Timetable::ClassContainer& classes)
+Chromosome::Chromosome(const Timetable::ClassContainer& classes, const bool randomizeStartTimes)
     : classes { classes }
 {
-    this->init();
+    if (randomizeStartTimes) {
+        init();
+    } else {
+        updateTimeSlotContainer();
+    }
 }
 
 void Chromosome::printSolution() const
@@ -18,13 +23,12 @@ void Chromosome::printSolution() const
     std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
     for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
-        stringBuffers[i] << i;
-        stringBuffers[i] << ". ";
     }
 
     for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
 
-        TimeSlot timeSlot = this->timeSlots[i];
+        stringBuffers[i] << std::setw(std::log10(Timetable::numberOfSlots)+1) << i << ". ";
+        TimeSlot timeSlot = timeSlots[i];
         for (unsigned j = 0; j < timeSlot.size(); j++) {
             stringBuffers[i] << "[";
             stringBuffers[i] << timeSlot[j];
@@ -32,13 +36,20 @@ void Chromosome::printSolution() const
         }
     }
 
-    std::cout << "-----------------------------";
+    std::cout << std::endl
+              << std::endl
+              << "Timetable";
+    constexpr auto spacer = "------------------------";
     for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
         if (i % Timetable::slotsPerDay == 0) {
-            std::cout << "-----------------------------" << std::endl;
+            std::cout << std::endl
+                      << spacer;
         }
-        std::cout << stringBuffers[i].str() << std::endl;
+        std::cout << std::endl
+                  << stringBuffers[i].str();
     }
+    std::cout << std::endl
+              << spacer << std::endl;
 }
 
 void Chromosome::updateTimeSlotContainer()
@@ -70,7 +81,7 @@ void Chromosome::mutate()
 uint32_t Chromosome::calculateError()
 {
     error = 0;
-    for (auto& slot: timeSlots) {
+    for (auto& slot : timeSlots) {
         slot.size() > 1 ? error += slot.size() - 1 : 0;
     }
     return 0;
@@ -88,4 +99,9 @@ Class Chromosome::getClass(const Class::ID classID) const
         throw std::runtime_error("Class not found");
     }
     return *it;
+}
+
+Timetable::ClassContainer Chromosome::getClasses() const
+{
+    return classes;
 }

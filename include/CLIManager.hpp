@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Log.hpp"
+
 #include <ext/CLI11.hpp>
 #include <filesystem>
 
@@ -12,7 +14,7 @@ public:
         argv = app.ensure_utf8(argv);
 
         app.add_option("-d,--dir", sampleDataDirPath, "Path to directory with sample data")->required();
-        app.add_option("-v,--verbose", verbose, "Print verbose output");
+        app.add_option("-l,--logLevel", logLevel, "Minimal severity level of log messages");
         app.set_config("--config");
 
         customParse(argc, argv);
@@ -20,7 +22,7 @@ public:
     }
 
     inline static std::filesystem::path sampleDataDirPath;
-    inline static bool verbose { false };
+    inline static Severity logLevel { Log::defaultSeverity };
 
 private:
     static void customParse(int argc, char* argv[])

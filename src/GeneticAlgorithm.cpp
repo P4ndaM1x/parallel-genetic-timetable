@@ -1,10 +1,9 @@
 #include "GeneticAlgorithm.hpp"
-#include "CLIManger.hpp"
 #include "Chromosome.hpp"
+#include "Log.hpp"
 
 #include <algorithm>
 #include <cassert>
-#include <iostream>
 #include <iterator>
 
 GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate)
@@ -14,29 +13,35 @@ GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populati
     , mutationRate { mutationRate }
 {
     for (unsigned i = 0; i < populationSize; i++) {
-        this->population.push_back(Chromosome { timetable.getClasses() });
+        population.push_back(Chromosome { timetable.getClasses() });
     }
 }
 
 std::vector<Chromosome> GeneticAlgorithm::getPopulation()
 {
-    return this->population;
+    return population;
 }
 
 void GeneticAlgorithm::initialize()
 {
-    if (CLI::Args::verbose) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-    }
+    Log::print("Initializing population...", Severity::DEBUG);
     std::for_each(std::begin(population), std::end(population), [](Chromosome& c) { c.init(); });
 }
 
 void GeneticAlgorithm::evolve()
 {
-    if (CLI::Args::verbose) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-    }
-    for (unsigned i = 0; i < numberOfGenerations; ++i) {
+    Log::print("Starting evolution...");
+
+    for (unsigned i = 1; i <= numberOfGenerations; ++i) {
+
+        const auto logMessage = "Generation " + std::to_string(i) + " of " + std::to_string(numberOfGenerations);
+        Log::print(logMessage, Severity::DEBUG, true);
+
+        const unsigned logFrequency = numberOfGenerations * 0.01;
+        if (i % (numberOfGenerations / logFrequency) == 0) {
+            Log::print(logMessage);
+        }
+
         fitness();
         selectBest();
         crossover();
@@ -91,9 +96,9 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
 
 void GeneticAlgorithm::run()
 {
-    if (CLI::Args::verbose) {
-        std::cout << "Running Genetic Algorithm" << std::endl;
-    }
+    Log::print("Running genetic algorithm...");
     initialize();
     evolve();
+    Log::print("Saving solution...");
+    solution.updateClasses(population.at(0).getClasses());
 }
