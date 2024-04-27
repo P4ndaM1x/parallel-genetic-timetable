@@ -1,3 +1,7 @@
 {
-    "C_Cpp.default.compilerPath": "/usr/bin/g++"
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "files.associations": {
+        "*.django-html": "django-html",
+        "sstream": "cpp"
+    }
 }

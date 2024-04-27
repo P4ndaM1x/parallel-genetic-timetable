@@ -12,18 +12,17 @@ class Chromosome {
 public:
     using TimeSlot = std::vector<Class::ID>;
 
-    Chromosome(const std::vector<Class>& classes);
+    Chromosome(const Timetable& timetable);
 
-    std::vector<Class> getClasses() const { return classes; }
-
-    void randomize();
+    void init(const std::vector<Class>& classes);
     void mutate();
     int calculateFitness();
     int getFitness();
     void printSolution();
 
+
 private:
     std::array<TimeSlot, Timetable::numberOfSlots> timeSlots;
-    std::vector<Class> classes;
-    int fitness { INT_MAX } ;
+    const Timetable& timetable;
+    int fitness { INT_MAX };
 };

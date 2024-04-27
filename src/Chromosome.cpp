@@ -1,35 +1,52 @@
 #include "Chromosome.hpp"
+#include "Class.hpp"
 
 #include <cstdlib>
 
-Chromosome::Chromosome(const std::vector<Class>& classes)
-    : classes { classes }
+Chromosome::Chromosome(const Timetable& timetable): timetable{timetable}
 {
+    this->init(timetable.getClasses());
 }
 
 void Chromosome::printSolution()
 {
-    std::ostringstream stringBuffers[Timetable::NumberOfSlots];
+    std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
-    for(int i = 0; i < Timetable::NumberOfSlots; i++)
+    for(unsigned i = 0; i < Timetable::numberOfSlots; i++)
     {
-        TimeSlot timeSlot = this->timeslots[i];
-        for(int j = 0; j < timeSlot.length(); j++)
+        stringBuffers[i] << i;
+        stringBuffers[i] << ". ";
+    }
+
+    for(unsigned i = 0; i < Timetable::numberOfSlots; i++)
+    {
+
+        TimeSlot timeSlot = this->timeSlots[i];
+        for(unsigned j = 0; j < timeSlot.size(); j++)
         {
+            stringBuffers[i+j] << "[";
             stringBuffers[i+j] << timeSlot[j];
+            stringBuffers[i+j] << "]";
         }
     }
 
-    for (int i = 0; i < Timetable::NumberOfSlots; ++i) {
-        std::cout << buffers[i].str() << std::endl;
+    std::cout << "-----------------------------";
+    for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
+        if(i % Timetable::slotsPerDay == 0)
+        {
+            std::cout << "-----------------------------" << std::endl;
+        }
+        std::cout << stringBuffers[i].str() << std::endl;
     }
 }
 
-void Chromosome::randomize()
+void Chromosome::init(const std::vector<Class>& classes)
 {
-    for (auto& c : classes) {
-        c.setStartingHour(std::rand() % Timetable::numberOfSlots);
-        for (auto i = c.getStartingHour(); i < c.getEndingHour(); ++i) {
+    for (const auto& c : classes) {
+        Class::Time start = std::rand() % (Timetable::numberOfSlots - c.getDurationTime());
+        Class::Time end = start + c.getDurationTime();
+        std::cout << (int) start << " " << (int) end << " " << (int) c.getDurationTime()<< "\n";
+        for (auto i = start; i < end; i++) {
             timeSlots.at(i).push_back(c.getId());
         }
     }
@@ -41,6 +58,7 @@ void Chromosome::mutate()
 
 int Chromosome::calculateFitness()
 {
+    return 0;
 }
 
 int Chromosome::getFitness()

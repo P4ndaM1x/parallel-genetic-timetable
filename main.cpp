@@ -1,5 +1,7 @@
 #include "CLIManger.hpp"
 #include "FileManager.hpp"
+#include "Chromosome.hpp"
+#include "GeneticAlgorithm.hpp"
 
 int main(int argc, char* argv[])
 {

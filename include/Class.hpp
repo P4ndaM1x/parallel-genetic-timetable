@@ -7,9 +7,9 @@
 
 class Class {
 public:
-    using ID = uint16_t;
-    using Time = uint8_t;
-    using Duration = uint8_t;
+    using ID = uint32_t;
+    using Duration = uint32_t;
+    using Time = uint32_t;
 
     Class(const ID id, const Duration durationTime)
         : id { id }
@@ -21,9 +21,6 @@ public:
 
     ID getId() const { return id; }
     Duration getDurationTime() const { return durationTime; }
-    Time getStartingHour() const { return startingHour; }
-    Time getEndingHour() const { return startingHour + durationTime; }
-    void setStartingHour(const Time hour) { startingHour = hour; }
 
     friend std::ostream& operator<<(std::ostream& os, const Class& c)
     {
@@ -36,5 +33,4 @@ public:
 private:
     ID id;
     Duration durationTime;
-    Time startingHour { 0 };
 };

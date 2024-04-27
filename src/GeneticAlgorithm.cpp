@@ -7,9 +7,9 @@ GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populati
     , numberOfGenerations { numberOfGenerations }
     , mutationRate { mutationRate }
 {
-    for(int i = 0; i < populationSize; i++)
+    for(unsigned i = 0; i < populationSize; i++)
     {
-        this->population.push_bash(Chromosome(timetable.getClasses()));
+        this->population.push_back(Chromosome(timetable));
     }
 }
 
