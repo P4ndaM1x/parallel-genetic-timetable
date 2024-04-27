@@ -2,8 +2,10 @@
 #include "Class.hpp"
 #include "Timetable.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include <cstdlib>
+#include <limits>
 
 Chromosome::Chromosome(const Timetable::ClassContainer& classes)
     : classes { classes }
@@ -11,7 +13,7 @@ Chromosome::Chromosome(const Timetable::ClassContainer& classes)
     this->init();
 }
 
-void Chromosome::printSolution()
+void Chromosome::printSolution() const
 {
     std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
@@ -39,17 +41,19 @@ void Chromosome::printSolution()
     }
 }
 
-void Chromosome::init()
+void Chromosome::updateTimeSlotContainer()
 {
-    for (auto& c : this->classes) {
-        do {
-            c.setStartTime(std::rand() % (Timetable::numberOfSlots - c.getDurationTime()));
-        } while (!this->isIntervalValid(c.getStartTime(), c.getEndTime()));
-
+    std::for_each(std::begin(timeSlots), std::end(timeSlots), [](auto& ts) { ts.clear(); });
+    for (auto& c : classes) {
         for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
         }
     }
+}
+void Chromosome::init()
+{
+    std::for_each(std::begin(classes), std::end(classes), [](auto& c) { c.setRandomStartTime(); });
+    updateTimeSlotContainer();
 }
 
 bool Chromosome::isIntervalValid(Class::Time a, Class::Time b)
@@ -59,14 +63,29 @@ bool Chromosome::isIntervalValid(Class::Time a, Class::Time b)
 
 void Chromosome::mutate()
 {
+    classes.at(std::rand() % classes.size()).setRandomStartTime();
+    updateTimeSlotContainer();
 }
 
-uint32_t Chromosome::calculateFitness()
+uint32_t Chromosome::calculateError()
 {
+    error = 0;
+    for (auto& slot: timeSlots) {
+        slot.size() > 1 ? error += slot.size() - 1 : 0;
+    }
     return 0;
 }
 
-uint32_t Chromosome::getFitness()
+uint32_t Chromosome::getError() const
 {
-    return this->fitness;
+    return error;
+}
+
+Class Chromosome::getClass(const Class::ID classID) const
+{
+    auto it = std::find_if(std::begin(classes), std::end(classes), [classID](auto& c) { return classID == c.getId(); });
+    if (it == std::end(classes)) {
+        throw std::runtime_error("Class not found");
+    }
+    return *it;
 }

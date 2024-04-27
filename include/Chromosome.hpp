@@ -16,14 +16,16 @@ public:
 
     void init();
     void mutate();
-    uint32_t calculateFitness();
-    uint32_t getFitness();
-    void printSolution();
+    uint32_t calculateError();
+    uint32_t getError() const;
+    void printSolution() const;
+    Class getClass(const Class::ID) const;
 
 private:
     bool isIntervalValid(Class::Time a, Class::Time b);
+    void updateTimeSlotContainer();
 
     TimeSlotContainer timeSlots;
     Timetable::ClassContainer classes;
-    uint32_t fitness { std::numeric_limits<uint32_t>::max() };
+    uint32_t error { std::numeric_limits<uint32_t>::max() };
 };
