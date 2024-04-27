@@ -10,6 +10,8 @@
 class GeneticAlgorithm {
 
 public:
+    using ChrosomeContainer = std::vector<Chromosome>; 
+
     GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate);
 
     // entry point for the algorithm
@@ -28,10 +30,16 @@ private:
     // Perform the crossover operation
     void crossover();
 
+    
+    Chromosome makeLove(const Chromosome& a, const Chromosome& b);
+
+    void selectBest();
+
     Timetable& solution;
     const unsigned populationSize;
     const unsigned numberOfGenerations;
     const double mutationRate;
+    const double percentToKeep{0.1};
 
-    std::vector<Chromosome> population;
+    ChrosomeContainer population;
 };

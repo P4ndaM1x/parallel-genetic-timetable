@@ -11,7 +11,8 @@ int main(int argc, char* argv[])
     Timetable timetable;
     FileManager::loadClasses(testFilePath, timetable);
 
-    GeneticAlgorithm geneticAlgorithm(timetable, 1, 1, 0.01);
+    GeneticAlgorithm geneticAlgorithm{timetable, 100, 1000, 0.01};
+    geneticAlgorithm.run();
 
     std::vector<Chromosome> pop = geneticAlgorithm.getPopulation();
     pop[0].printSolution();

@@ -12,6 +12,7 @@ public:
         argv = app.ensure_utf8(argv);
 
         app.add_option("-d,--dir", sampleDataDirPath, "Path to directory with sample data")->required();
+        app.add_option("-v,--verbose", verbose, "Print verbose output");
         app.set_config("--config");
 
         customParse(argc, argv);
@@ -19,6 +20,7 @@ public:
     }
 
     inline static std::filesystem::path sampleDataDirPath;
+    inline static bool verbose { false };
 
 private:
     static void customParse(int argc, char* argv[])

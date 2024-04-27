@@ -19,6 +19,7 @@ public:
     Time getStartTime() const { return startTime; }
     Time getEndTime() const { return startTime + durationTime; }
     void setStartTime(const Time time) { startTime = time; }
+    void setRandomStartTime();
 
     friend std::ostream& operator<<(std::ostream& os, const Class& c)
     {
@@ -29,6 +30,8 @@ public:
     }
 
 private:
+    bool isIntervalValid();
+
     ID id;
     Duration durationTime;
     Time startTime { 0 };
