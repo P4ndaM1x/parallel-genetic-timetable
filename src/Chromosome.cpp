@@ -24,9 +24,9 @@ void Chromosome::printSolution()
         TimeSlot timeSlot = this->timeSlots[i];
         for(unsigned j = 0; j < timeSlot.size(); j++)
         {
-            stringBuffers[i+j] << "[";
-            stringBuffers[i+j] << timeSlot[j];
-            stringBuffers[i+j] << "]";
+            stringBuffers[i] << "[";
+            stringBuffers[i] << timeSlot[j];
+            stringBuffers[i] << "]";
         }
     }
 
@@ -43,13 +43,22 @@ void Chromosome::printSolution()
 void Chromosome::init(const std::vector<Class>& classes)
 {
     for (const auto& c : classes) {
-        Class::Time start = std::rand() % (Timetable::numberOfSlots - c.getDurationTime());
-        Class::Time end = start + c.getDurationTime();
-        std::cout << (int) start << " " << (int) end << " " << (int) c.getDurationTime()<< "\n";
+        Class::Time start; 
+        Class::Time end;
+        do { 
+            start = std::rand() % (Timetable::numberOfSlots - c.getDurationTime());
+            end = start + c.getDurationTime();
+        } while (!this->isIntervalValid(start, end));
+
         for (auto i = start; i < end; i++) {
             timeSlots.at(i).push_back(c.getId());
         }
     }
+}
+
+bool Chromosome::isIntervalValid(Class::Time a, Class::Time b)
+{
+    return (a / Timetable::slotsPerDay) == ((b - 1) / Timetable::slotsPerDay);
 }
 
 void Chromosome::mutate()

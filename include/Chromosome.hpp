@@ -22,6 +22,9 @@ public:
 
 
 private:
+    bool isIntervalValid(Class::Time a, Class::Time b);
+
+
     std::array<TimeSlot, Timetable::numberOfSlots> timeSlots;
     const Timetable& timetable;
     int fitness { INT_MAX };
