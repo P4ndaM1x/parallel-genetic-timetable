@@ -12,7 +12,7 @@ public:
         try {
             csv::CSVReader reader { filename };
             for (auto& row : reader)
-                timetable.addClasses({ Class { row["id"].get<Class::id_type>(), row["duration"].get<Class::time_type>() } });
+                timetable.addClasses({ Class { row["id"].get<Class::ID>(), row["duration"].get<Class::Duration>() } });
 
             auto classes = timetable.getClasses();
             validateUniqueIDs(classes);
@@ -24,7 +24,7 @@ public:
     }
 
 private:
-    static void validateUniqueIDs(const Timetable::data_type& localClasses)
+    static void validateUniqueIDs(const Timetable::ClassContainer& localClasses)
     {
         auto classes = localClasses;
         auto it = std::unique(classes.begin(), classes.end(), [](auto a, auto b) { return a.getId() == b.getId(); });
@@ -33,7 +33,7 @@ private:
         }
     }
 
-    static void validateDurationTimes(const Timetable::data_type& localClasses)
+    static void validateDurationTimes(const Timetable::ClassContainer& localClasses)
     {
         auto classes = localClasses;
         auto found = std::any_of(classes.begin(), classes.end(), [](auto c) { return (c.getDurationTime() > Timetable::slotsPerDay); });

@@ -4,21 +4,26 @@
 #include "Timetable.hpp"
 
 #include <array>
-#include <list>
+#include <cstdint>
+#include <limits>
 
 class Chromosome {
 public:
-    using underlying_type = std::array<std::list<Class::id_type>, Timetable::numberOfSlots>;
+    using TimeSlot = std::vector<Class::ID>;
+    using TimeSlotContainer = std::array<TimeSlot, Timetable::numberOfSlots>;
 
-    Chromosome(const Timetable::data_type& classes);
+    Chromosome(const Timetable::ClassContainer& classes);
 
-    Timetable::data_type getClasses() const { return classes; }
-
-    void randomize();
+    void init();
     void mutate();
-    void fitness();
+    uint32_t calculateFitness();
+    uint32_t getFitness();
+    void printSolution();
 
 private:
-    underlying_type timeSlots;
-    Timetable::data_type classes;
+    bool isIntervalValid(Class::Time a, Class::Time b);
+
+    TimeSlotContainer timeSlots;
+    Timetable::ClassContainer classes;
+    uint32_t fitness { std::numeric_limits<uint32_t>::max() };
 };

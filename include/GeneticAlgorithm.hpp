@@ -14,6 +14,7 @@ public:
 
     // entry point for the algorithm
     void run();
+    std::vector<Chromosome> getPopulation();
 
 private:
     // Initialize the population with random chromosomes

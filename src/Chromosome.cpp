@@ -1,26 +1,72 @@
 #include "Chromosome.hpp"
+#include "Class.hpp"
+#include "Timetable.hpp"
 
+#include <cstdint>
 #include <cstdlib>
 
-Chromosome::Chromosome(const Timetable::data_type& classes)
+Chromosome::Chromosome(const Timetable::ClassContainer& classes)
     : classes { classes }
 {
+    this->init();
 }
 
-void Chromosome::randomize()
+void Chromosome::printSolution()
 {
-    for (auto& c : classes) {
-        c.setStartingHour(std::rand() % Timetable::numberOfSlots);
-        for (auto i = c.getStartingHour(); i < c.getEndingHour(); ++i) {
+    std::ostringstream stringBuffers[Timetable::numberOfSlots];
+
+    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
+        stringBuffers[i] << i;
+        stringBuffers[i] << ". ";
+    }
+
+    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
+
+        TimeSlot timeSlot = this->timeSlots[i];
+        for (unsigned j = 0; j < timeSlot.size(); j++) {
+            stringBuffers[i] << "[";
+            stringBuffers[i] << timeSlot[j];
+            stringBuffers[i] << "]";
+        }
+    }
+
+    std::cout << "-----------------------------";
+    for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
+        if (i % Timetable::slotsPerDay == 0) {
+            std::cout << "-----------------------------" << std::endl;
+        }
+        std::cout << stringBuffers[i].str() << std::endl;
+    }
+}
+
+void Chromosome::init()
+{
+    for (auto& c : this->classes) {
+        do {
+            c.setStartTime(std::rand() % (Timetable::numberOfSlots - c.getDurationTime()));
+        } while (!this->isIntervalValid(c.getStartTime(), c.getEndTime()));
+
+        for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
         }
     }
+}
+
+bool Chromosome::isIntervalValid(Class::Time a, Class::Time b)
+{
+    return (a / Timetable::slotsPerDay) == ((b - 1) / Timetable::slotsPerDay);
 }
 
 void Chromosome::mutate()
 {
 }
 
-void Chromosome::fitness()
+uint32_t Chromosome::calculateFitness()
 {
+    return 0;
+}
+
+uint32_t Chromosome::getFitness()
+{
+    return this->fitness;
 }

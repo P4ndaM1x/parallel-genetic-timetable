@@ -1,28 +1,24 @@
 #pragma once
 
+#include "Timetable.hpp"
+
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
-#include <stdexcept>
 
 class Class {
 public:
-    using id_type = uint16_t;
-    using time_type = uint8_t;
+    using ID = uint32_t;
+    using Duration = uint32_t;
+    using Time = uint32_t;
 
-    Class(const id_type id, const time_type durationTime)
-        : id { id }
-        , durationTime { durationTime }
-    {
-        if (durationTime <= 0)
-            throw std::invalid_argument("Duration time must be greater than 0!");
-    }
+    Class(const ID id, const Duration durationTime);
 
-    id_type getId() const { return id; }
-    time_type getDurationTime() const { return durationTime; }
-    time_type getStartingHour() const { return startingHour; }
-    time_type getEndingHour() const { return startingHour + durationTime; }
-    void setStartingHour(const time_type hour) { startingHour = hour; }
+    ID getId() const { return id; }
+    Duration getDurationTime() const { return durationTime; }
+    Time getStartTime() const { return startTime; }
+    Time getEndTime() const { return startTime + durationTime; }
+    void setStartTime(const Time time) { startTime = time; }
 
     friend std::ostream& operator<<(std::ostream& os, const Class& c)
     {
@@ -33,7 +29,7 @@ public:
     }
 
 private:
-    id_type id;
-    time_type durationTime;
-    time_type startingHour { 0 };
+    ID id;
+    Duration durationTime;
+    Time startTime { 0 };
 };
