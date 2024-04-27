@@ -1,12 +1,10 @@
 #pragma once
 
+#include "Timetable.hpp"
+
 #include <cstdint>
 #include <iomanip>
 #include <iostream>
-#include <stdexcept>
-#include <string>
-
-#include "Timetable.hpp"
 
 class Class {
 public:

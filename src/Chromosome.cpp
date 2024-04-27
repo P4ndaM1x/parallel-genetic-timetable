@@ -2,6 +2,7 @@
 #include "Class.hpp"
 #include "Timetable.hpp"
 
+#include <cstdint>
 #include <cstdlib>
 
 Chromosome::Chromosome(const Timetable::ClassContainer& classes)
@@ -60,12 +61,12 @@ void Chromosome::mutate()
 {
 }
 
-int Chromosome::calculateFitness()
+uint32_t Chromosome::calculateFitness()
 {
     return 0;
 }
 
-int Chromosome::getFitness()
+uint32_t Chromosome::getFitness()
 {
     return this->fitness;
 }

@@ -1,5 +1,8 @@
 #include "Class.hpp"
 
+#include <stdexcept>
+#include <string>
+
 Class::Class(const ID id, const Duration durationTime)
     : id { id }
     , durationTime { durationTime }

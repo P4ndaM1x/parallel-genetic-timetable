@@ -16,6 +16,7 @@ public:
 
     void addClasses(std::initializer_list<Class> classList);
     ClassContainer getClasses() const { return classes; }
+    void printClasses() const;
 
 private:
     ClassContainer classes;

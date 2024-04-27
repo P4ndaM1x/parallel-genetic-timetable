@@ -6,3 +6,9 @@ void Timetable::addClasses(std::initializer_list<Class> classList)
         classes.push_back(c);
     }
 }
+
+void Timetable::printClasses() const
+{
+    for (const auto& c : classes)
+        std::cout << c << std::endl;
+}

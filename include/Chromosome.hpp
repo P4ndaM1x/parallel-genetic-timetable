@@ -1,10 +1,11 @@
 #pragma once
 
-#include <array>
-#include <climits>
-
 #include "Class.hpp"
 #include "Timetable.hpp"
+
+#include <array>
+#include <cstdint>
+#include <limits>
 
 class Chromosome {
 public:
@@ -15,8 +16,8 @@ public:
 
     void init();
     void mutate();
-    int calculateFitness();
-    int getFitness();
+    uint32_t calculateFitness();
+    uint32_t getFitness();
     void printSolution();
 
 private:
@@ -24,5 +25,5 @@ private:
 
     TimeSlotContainer timeSlots;
     Timetable::ClassContainer classes;
-    int fitness { INT_MAX };
+    uint32_t fitness { std::numeric_limits<uint32_t>::max() };
 };
