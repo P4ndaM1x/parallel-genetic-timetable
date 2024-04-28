@@ -3,16 +3,19 @@
 #include "Chromosome.hpp"
 #include "Timetable.hpp"
 
-#include <algorithm>
-#include <random>
 #include <vector>
 
 class GeneticAlgorithm {
 
 public:
-    using ChrosomeContainer = std::vector<Chromosome>; 
+    using ChrosomeContainer = std::vector<Chromosome>;
 
-    GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate);
+    GeneticAlgorithm(
+        Timetable& timetable,
+        const unsigned populationSize,
+        const unsigned numberOfGenerations,
+        const double mutationRate
+    );
 
     // entry point for the algorithm
     void run();
@@ -30,7 +33,6 @@ private:
     // Perform the crossover operation
     void crossover();
 
-    
     Chromosome makeLove(const Chromosome& a, const Chromosome& b);
 
     void selectBest();

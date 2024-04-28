@@ -1,16 +1,22 @@
 #include "Chromosome.hpp"
 #include "Class.hpp"
+#include "Log.hpp"
 #include "Timetable.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
-#include <limits>
+#include <iomanip>
 
-Chromosome::Chromosome(const Timetable::ClassContainer& classes)
-    : classes { classes }
+Chromosome::Chromosome(const Timetable::ClassContainer& classes, const bool randomizeStartTimes)
+    : classes{classes}
 {
-    this->init();
+    if (randomizeStartTimes) {
+        init();
+    } else {
+        updateTimeSlotContainer();
+    }
 }
 
 void Chromosome::printSolution() const
@@ -18,32 +24,28 @@ void Chromosome::printSolution() const
     std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
     for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
-        stringBuffers[i] << i;
-        stringBuffers[i] << ". ";
-    }
 
-    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
-
-        TimeSlot timeSlot = this->timeSlots[i];
+        stringBuffers[i] << std::setw(std::log10(Timetable::numberOfSlots) + 1) << i << ". ";
+        TimeSlot timeSlot = timeSlots[i];
         for (unsigned j = 0; j < timeSlot.size(); j++) {
-            stringBuffers[i] << "[";
-            stringBuffers[i] << timeSlot[j];
-            stringBuffers[i] << "]";
+            stringBuffers[i] << "[" << timeSlot[j] << "]";
         }
     }
 
-    std::cout << "-----------------------------";
+    std::cout << std::endl << std::endl << "Timetable";
+    constexpr auto spacer = "------------------------";
     for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
         if (i % Timetable::slotsPerDay == 0) {
-            std::cout << "-----------------------------" << std::endl;
+            std::cout << std::endl << spacer;
         }
-        std::cout << stringBuffers[i].str() << std::endl;
+        std::cout << std::endl << stringBuffers[i].str();
     }
+    std::cout << std::endl << spacer << std::endl;
 }
 
 void Chromosome::updateTimeSlotContainer()
 {
-    std::for_each(std::begin(timeSlots), std::end(timeSlots), [](auto& ts) { ts.clear(); });
+    std::ranges::for_each(timeSlots, [](auto& ts) { ts.clear(); });
     for (auto& c : classes) {
         for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
@@ -52,7 +54,7 @@ void Chromosome::updateTimeSlotContainer()
 }
 void Chromosome::init()
 {
-    std::for_each(std::begin(classes), std::end(classes), [](auto& c) { c.setRandomStartTime(); });
+    std::ranges::for_each(classes, [](auto& c) { c.setRandomStartTime(); });
     updateTimeSlotContainer();
 }
 
@@ -70,22 +72,21 @@ void Chromosome::mutate()
 uint32_t Chromosome::calculateError()
 {
     error = 0;
-    for (auto& slot: timeSlots) {
+    for (auto& slot : timeSlots) {
         slot.size() > 1 ? error += slot.size() - 1 : 0;
     }
     return 0;
 }
 
-uint32_t Chromosome::getError() const
-{
-    return error;
-}
+uint32_t Chromosome::getError() const { return error; }
 
 Class Chromosome::getClass(const Class::ID classID) const
 {
-    auto it = std::find_if(std::begin(classes), std::end(classes), [classID](auto& c) { return classID == c.getId(); });
+    auto it = std::ranges::find_if(classes, [classID](auto& c) { return classID == c.getId(); });
     if (it == std::end(classes)) {
-        throw std::runtime_error("Class not found");
+        Log::print("Class not found", Severity::WARNING);
     }
     return *it;
 }
+
+Timetable::ClassContainer Chromosome::getClasses() const { return classes; }

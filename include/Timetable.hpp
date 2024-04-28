@@ -6,7 +6,6 @@
 
 class Class;
 
-// stores and manages input data
 class Timetable {
 public:
     static constexpr unsigned numberOfDays = 5;
@@ -17,6 +16,8 @@ public:
     void addClasses(std::initializer_list<Class> classList);
     ClassContainer getClasses() const { return classes; }
     void printClasses() const;
+    void updateClasses(const ClassContainer& newClasses) { classes = newClasses; }
+    void print() const;
 
 private:
     ClassContainer classes;

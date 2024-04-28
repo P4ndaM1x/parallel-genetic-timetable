@@ -1,42 +1,50 @@
 #include "GeneticAlgorithm.hpp"
-#include "CLIManger.hpp"
 #include "Chromosome.hpp"
+#include "Log.hpp"
 
 #include <algorithm>
 #include <cassert>
-#include <iostream>
 #include <iterator>
 
-GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate)
-    : solution { timetable }
-    , populationSize { populationSize }
-    , numberOfGenerations { numberOfGenerations }
-    , mutationRate { mutationRate }
+GeneticAlgorithm::GeneticAlgorithm(
+    Timetable& timetable,
+    const unsigned populationSize,
+    const unsigned numberOfGenerations,
+    const double mutationRate
+)
+    : solution{timetable}
+    , populationSize{populationSize}
+    , numberOfGenerations{numberOfGenerations}
+    , mutationRate{mutationRate}
 {
     for (unsigned i = 0; i < populationSize; i++) {
-        this->population.push_back(Chromosome { timetable.getClasses() });
+        population.push_back(Chromosome{timetable.getClasses()});
     }
 }
 
-std::vector<Chromosome> GeneticAlgorithm::getPopulation()
-{
-    return this->population;
-}
+std::vector<Chromosome> GeneticAlgorithm::getPopulation() { return population; }
 
 void GeneticAlgorithm::initialize()
 {
-    if (CLI::Args::verbose) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-    }
-    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) { c.init(); });
+    Log::print("Initializing population...", Severity::DEBUG);
+    std::ranges::for_each(population, [](Chromosome& c) { c.init(); });
 }
 
 void GeneticAlgorithm::evolve()
 {
-    if (CLI::Args::verbose) {
-        std::cout << __PRETTY_FUNCTION__ << std::endl;
-    }
-    for (unsigned i = 0; i < numberOfGenerations; ++i) {
+    Log::print("Starting evolution...");
+
+    for (unsigned i = 1; i <= numberOfGenerations; ++i) {
+
+        const auto logMessage
+            = "Generation " + std::to_string(i) + " of " + std::to_string(numberOfGenerations);
+        Log::print(logMessage, Severity::DEBUG, true);
+
+        const unsigned logFrequency = numberOfGenerations * 0.01;
+        if (i % (numberOfGenerations / logFrequency) == 0) {
+            Log::print(logMessage);
+        }
+
         fitness();
         selectBest();
         crossover();
@@ -46,12 +54,14 @@ void GeneticAlgorithm::evolve()
 
 void GeneticAlgorithm::fitness()
 {
-    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) { c.calculateError(); });
+    std::ranges::for_each(population, [](Chromosome& c) { c.calculateError(); });
 }
 
 void GeneticAlgorithm::selectBest()
 {
-    std::sort(std::begin(population), std::end(population), [](const Chromosome& a, const Chromosome& b) { return a.getError() < b.getError(); });
+    std::ranges::sort(population, [](const Chromosome& a, const Chromosome& b) {
+        return a.getError() < b.getError();
+    });
     population.erase(std::begin(population) + populationSize * percentToKeep, std::end(population));
     population.reserve(populationSize);
 }
@@ -67,7 +77,7 @@ void GeneticAlgorithm::mutate()
 
 void GeneticAlgorithm::crossover()
 {
-    ChrosomeContainer parents { population };
+    ChrosomeContainer parents{population};
     for (unsigned i = population.size(); i < populationSize; ++i) {
         const auto& firstParent = parents.at(std::rand() % parents.size());
         const auto& secondParent = parents.at(std::rand() % parents.size());
@@ -86,14 +96,14 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
         const auto& classToUse = std::rand() % 2 == 0 ? classA : classB;
         newClasses.push_back(classToUse);
     }
-    return Chromosome { newClasses };
+    return Chromosome{newClasses};
 }
 
 void GeneticAlgorithm::run()
 {
-    if (CLI::Args::verbose) {
-        std::cout << "Running Genetic Algorithm" << std::endl;
-    }
+    Log::print("Running genetic algorithm...");
     initialize();
     evolve();
+    Log::print("Saving solution...");
+    solution.updateClasses(population.at(0).getClasses());
 }

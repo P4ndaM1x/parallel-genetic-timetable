@@ -1,21 +1,29 @@
-#include "CLIManger.hpp"
+#include "CLIManager.hpp"
 #include "FileManager.hpp"
-#include "Chromosome.hpp"
 #include "GeneticAlgorithm.hpp"
 
 int main(int argc, char* argv[])
 {
     CLI::Args::prepare(argc, argv);
-    srand(time(NULL));
+    std::srand(std::time(0));
     const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
     Timetable timetable;
+
+    Log::print("Loading classes...");
     FileManager::loadClasses(testFilePath, timetable);
 
-    GeneticAlgorithm geneticAlgorithm{timetable, 100, 1000, 0.01};
+    Log::print("Instantiation of the genetic algorithm...");
+    GeneticAlgorithm geneticAlgorithm{
+        timetable,
+        CLI::Args::populationSize,
+        CLI::Args::numberOfGenerations,
+        CLI::Args::mutationRate
+    };
     geneticAlgorithm.run();
 
-    std::vector<Chromosome> pop = geneticAlgorithm.getPopulation();
-    pop[0].printSolution();
+    Log::print("Printing solution...");
+    timetable.print();
 
+    Log::print("All done!\n");
     return 0;
 }
