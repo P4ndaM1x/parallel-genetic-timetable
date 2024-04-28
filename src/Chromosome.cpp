@@ -1,5 +1,6 @@
 #include "Chromosome.hpp"
 #include "Class.hpp"
+#include "Log.hpp"
 #include "Timetable.hpp"
 
 #include <algorithm>
@@ -44,7 +45,7 @@ void Chromosome::printSolution() const
 
 void Chromosome::updateTimeSlotContainer()
 {
-    std::for_each(std::begin(timeSlots), std::end(timeSlots), [](auto& ts) { ts.clear(); });
+    std::ranges::for_each(timeSlots, [](auto& ts) { ts.clear(); });
     for (auto& c : classes) {
         for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
@@ -53,7 +54,7 @@ void Chromosome::updateTimeSlotContainer()
 }
 void Chromosome::init()
 {
-    std::for_each(std::begin(classes), std::end(classes), [](auto& c) { c.setRandomStartTime(); });
+    std::ranges::for_each(classes, [](auto& c) { c.setRandomStartTime(); });
     updateTimeSlotContainer();
 }
 
@@ -81,11 +82,9 @@ uint32_t Chromosome::getError() const { return error; }
 
 Class Chromosome::getClass(const Class::ID classID) const
 {
-    auto it = std::find_if(std::begin(classes), std::end(classes), [classID](auto& c) {
-        return classID == c.getId();
-    });
+    auto it = std::ranges::find_if(classes, [classID](auto& c) { return classID == c.getId(); });
     if (it == std::end(classes)) {
-        throw std::runtime_error("Class not found");
+        Log::print("Class not found", Severity::WARNING);
     }
     return *it;
 }

@@ -27,7 +27,7 @@ std::vector<Chromosome> GeneticAlgorithm::getPopulation() { return population; }
 void GeneticAlgorithm::initialize()
 {
     Log::print("Initializing population...", Severity::DEBUG);
-    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) { c.init(); });
+    std::ranges::for_each(population, [](Chromosome& c) { c.init(); });
 }
 
 void GeneticAlgorithm::evolve()
@@ -54,18 +54,14 @@ void GeneticAlgorithm::evolve()
 
 void GeneticAlgorithm::fitness()
 {
-    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) {
-        c.calculateError();
-    });
+    std::ranges::for_each(population, [](Chromosome& c) { c.calculateError(); });
 }
 
 void GeneticAlgorithm::selectBest()
 {
-    std::sort(
-        std::begin(population),
-        std::end(population),
-        [](const Chromosome& a, const Chromosome& b) { return a.getError() < b.getError(); }
-    );
+    std::ranges::sort(population, [](const Chromosome& a, const Chromosome& b) {
+        return a.getError() < b.getError();
+    });
     population.erase(std::begin(population) + populationSize * percentToKeep, std::end(population));
     population.reserve(populationSize);
 }
