@@ -14,7 +14,4 @@ void Timetable::printClasses() const
         std::cout << c << std::endl;
 }
 
-void Timetable::print() const
-{
-    Chromosome { classes, false }.printSolution();
-}
+void Timetable::print() const { Chromosome{classes, false}.printSolution(); }

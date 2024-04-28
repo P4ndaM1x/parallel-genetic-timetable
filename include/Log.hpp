@@ -15,11 +15,17 @@ enum class Severity : unsigned short {
 class Log {
 public:
     static const char* toString(const Severity severity);
-    static void print(const std::string& message = "", const Severity severity = defaultSeverity, const bool carriageReturn = false, const std::string& functionName = getSimplifiedFunctionPrototype(std::source_location::current().function_name()));
+    static void print(
+        const std::string& message = "",
+        const Severity severity = defaultSeverity,
+        const bool carriageReturn = false,
+        const std::string& functionName
+        = getSimplifiedFunctionPrototype(std::source_location::current().function_name())
+    );
 
     static constexpr Severity lowestSeverity = Severity::DEBUG;
     static constexpr Severity defaultSeverity = Severity::INFO;
-    static constexpr Severity highesetSeverity = Severity::FATAL;
+    static constexpr Severity highestSeverity = Severity::FATAL;
 
 private:
     static constexpr std::string getSimplifiedFunctionPrototype(const std::string& prettyFunction)

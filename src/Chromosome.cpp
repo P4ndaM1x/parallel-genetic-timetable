@@ -9,7 +9,7 @@
 #include <iomanip>
 
 Chromosome::Chromosome(const Timetable::ClassContainer& classes, const bool randomizeStartTimes)
-    : classes { classes }
+    : classes{classes}
 {
     if (randomizeStartTimes) {
         init();
@@ -23,33 +23,23 @@ void Chromosome::printSolution() const
     std::ostringstream stringBuffers[Timetable::numberOfSlots];
 
     for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
-    }
 
-    for (unsigned i = 0; i < Timetable::numberOfSlots; i++) {
-
-        stringBuffers[i] << std::setw(std::log10(Timetable::numberOfSlots)+1) << i << ". ";
+        stringBuffers[i] << std::setw(std::log10(Timetable::numberOfSlots) + 1) << i << ". ";
         TimeSlot timeSlot = timeSlots[i];
         for (unsigned j = 0; j < timeSlot.size(); j++) {
-            stringBuffers[i] << "[";
-            stringBuffers[i] << timeSlot[j];
-            stringBuffers[i] << "]";
+            stringBuffers[i] << "[" << timeSlot[j] << "]";
         }
     }
 
-    std::cout << std::endl
-              << std::endl
-              << "Timetable";
+    std::cout << std::endl << std::endl << "Timetable";
     constexpr auto spacer = "------------------------";
     for (unsigned i = 0; i < Timetable::numberOfSlots; ++i) {
         if (i % Timetable::slotsPerDay == 0) {
-            std::cout << std::endl
-                      << spacer;
+            std::cout << std::endl << spacer;
         }
-        std::cout << std::endl
-                  << stringBuffers[i].str();
+        std::cout << std::endl << stringBuffers[i].str();
     }
-    std::cout << std::endl
-              << spacer << std::endl;
+    std::cout << std::endl << spacer << std::endl;
 }
 
 void Chromosome::updateTimeSlotContainer()
@@ -87,21 +77,17 @@ uint32_t Chromosome::calculateError()
     return 0;
 }
 
-uint32_t Chromosome::getError() const
-{
-    return error;
-}
+uint32_t Chromosome::getError() const { return error; }
 
 Class Chromosome::getClass(const Class::ID classID) const
 {
-    auto it = std::find_if(std::begin(classes), std::end(classes), [classID](auto& c) { return classID == c.getId(); });
+    auto it = std::find_if(std::begin(classes), std::end(classes), [classID](auto& c) {
+        return classID == c.getId();
+    });
     if (it == std::end(classes)) {
         throw std::runtime_error("Class not found");
     }
     return *it;
 }
 
-Timetable::ClassContainer Chromosome::getClasses() const
-{
-    return classes;
-}
+Timetable::ClassContainer Chromosome::getClasses() const { return classes; }

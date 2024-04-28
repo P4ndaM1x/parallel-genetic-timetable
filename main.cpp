@@ -5,7 +5,7 @@
 int main(int argc, char* argv[])
 {
     CLI::Args::prepare(argc, argv);
-    srand(time(NULL));
+    std::srand(std::time(0));
     const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
     Timetable timetable;
 
@@ -13,7 +13,12 @@ int main(int argc, char* argv[])
     FileManager::loadClasses(testFilePath, timetable);
 
     Log::print("Instantiation of the genetic algorithm...");
-    GeneticAlgorithm geneticAlgorithm { timetable, 100, 1000, 0.01 };
+    GeneticAlgorithm geneticAlgorithm{
+        timetable,
+        CLI::Args::populationSize,
+        CLI::Args::numberOfGenerations,
+        CLI::Args::mutationRate
+    };
     geneticAlgorithm.run();
 
     Log::print("Printing solution...");

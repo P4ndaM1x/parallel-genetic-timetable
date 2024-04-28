@@ -6,21 +6,23 @@
 #include <cassert>
 #include <iterator>
 
-GeneticAlgorithm::GeneticAlgorithm(Timetable& timetable, const unsigned populationSize, const unsigned numberOfGenerations, const double mutationRate)
-    : solution { timetable }
-    , populationSize { populationSize }
-    , numberOfGenerations { numberOfGenerations }
-    , mutationRate { mutationRate }
+GeneticAlgorithm::GeneticAlgorithm(
+    Timetable& timetable,
+    const unsigned populationSize,
+    const unsigned numberOfGenerations,
+    const double mutationRate
+)
+    : solution{timetable}
+    , populationSize{populationSize}
+    , numberOfGenerations{numberOfGenerations}
+    , mutationRate{mutationRate}
 {
     for (unsigned i = 0; i < populationSize; i++) {
-        population.push_back(Chromosome { timetable.getClasses() });
+        population.push_back(Chromosome{timetable.getClasses()});
     }
 }
 
-std::vector<Chromosome> GeneticAlgorithm::getPopulation()
-{
-    return population;
-}
+std::vector<Chromosome> GeneticAlgorithm::getPopulation() { return population; }
 
 void GeneticAlgorithm::initialize()
 {
@@ -34,7 +36,8 @@ void GeneticAlgorithm::evolve()
 
     for (unsigned i = 1; i <= numberOfGenerations; ++i) {
 
-        const auto logMessage = "Generation " + std::to_string(i) + " of " + std::to_string(numberOfGenerations);
+        const auto logMessage
+            = "Generation " + std::to_string(i) + " of " + std::to_string(numberOfGenerations);
         Log::print(logMessage, Severity::DEBUG, true);
 
         const unsigned logFrequency = numberOfGenerations * 0.01;
@@ -51,12 +54,18 @@ void GeneticAlgorithm::evolve()
 
 void GeneticAlgorithm::fitness()
 {
-    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) { c.calculateError(); });
+    std::for_each(std::begin(population), std::end(population), [](Chromosome& c) {
+        c.calculateError();
+    });
 }
 
 void GeneticAlgorithm::selectBest()
 {
-    std::sort(std::begin(population), std::end(population), [](const Chromosome& a, const Chromosome& b) { return a.getError() < b.getError(); });
+    std::sort(
+        std::begin(population),
+        std::end(population),
+        [](const Chromosome& a, const Chromosome& b) { return a.getError() < b.getError(); }
+    );
     population.erase(std::begin(population) + populationSize * percentToKeep, std::end(population));
     population.reserve(populationSize);
 }
@@ -72,7 +81,7 @@ void GeneticAlgorithm::mutate()
 
 void GeneticAlgorithm::crossover()
 {
-    ChrosomeContainer parents { population };
+    ChrosomeContainer parents{population};
     for (unsigned i = population.size(); i < populationSize; ++i) {
         const auto& firstParent = parents.at(std::rand() % parents.size());
         const auto& secondParent = parents.at(std::rand() % parents.size());
@@ -91,7 +100,7 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
         const auto& classToUse = std::rand() % 2 == 0 ? classA : classB;
         newClasses.push_back(classToUse);
     }
-    return Chromosome { newClasses };
+    return Chromosome{newClasses};
 }
 
 void GeneticAlgorithm::run()

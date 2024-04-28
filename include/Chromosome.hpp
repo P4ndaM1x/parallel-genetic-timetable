@@ -28,5 +28,5 @@ private:
 
     TimeSlotContainer timeSlots;
     Timetable::ClassContainer classes;
-    uint32_t error { std::numeric_limits<uint32_t>::max() };
+    uint32_t error{std::numeric_limits<uint32_t>::max()};
 };

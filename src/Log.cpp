@@ -21,7 +21,12 @@ const char* Log::toString(const Severity severity)
     }
 }
 
-void Log::print(const std::string& message, const Severity severity, const bool carriageReturn, const std::string& functionName)
+void Log::print(
+    const std::string& message,
+    const Severity severity,
+    const bool carriageReturn,
+    const std::string& functionName
+)
 {
     if (std::to_underlying(severity) < std::to_underlying(CLI::Args::logLevel)) {
         return;

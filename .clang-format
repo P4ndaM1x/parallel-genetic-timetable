@@ -1,4 +1,10 @@
 ﻿---
 BasedOnStyle: WebKit
 
+ColumnLimit: 100
+Cpp11BracedListStyle: true
+SpaceBeforeCpp11BracedList: false
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: BlockIndent
 ...

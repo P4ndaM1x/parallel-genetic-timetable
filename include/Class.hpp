@@ -34,5 +34,5 @@ private:
 
     ID id;
     Duration durationTime;
-    Time startTime { 0 };
+    Time startTime{0};
 };
