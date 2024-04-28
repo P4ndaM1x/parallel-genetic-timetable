@@ -77,7 +77,7 @@ void GeneticAlgorithm::mutate()
 
 void GeneticAlgorithm::crossover()
 {
-    ChrosomeContainer parents{population};
+    ChromosomeContainer parents{population};
     for (unsigned i = population.size(); i < populationSize; ++i) {
         const auto& firstParent = parents.at(std::rand() % parents.size());
         const auto& secondParent = parents.at(std::rand() % parents.size());
@@ -99,11 +99,21 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
     return Chromosome{newClasses};
 }
 
-void GeneticAlgorithm::run()
+GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::run()
 {
     Log::print("Running genetic algorithm...");
     initialize();
     evolve();
     Log::print("Saving solution...");
     solution.updateClasses(population.at(0).getClasses());
+    return population;
+}
+
+GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::step()
+{
+    Log::print("Running genetic algorithm step...");
+    evolve();
+    Log::print("Saving solution...");
+    solution.updateClasses(population.at(0).getClasses());
+    return population;
 }

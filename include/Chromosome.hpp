@@ -21,6 +21,21 @@ public:
     void printSolution() const;
     Class getClass(const Class::ID) const;
     Timetable::ClassContainer getClasses() const;
+    std::string serialize() const;
+
+    static Chromosome deserialize(const std::string& serializedString);
+
+    friend std::ostream& operator<<(std::ostream& os, const Chromosome& c)
+    {
+        Timetable::ClassContainer classes = c.getClasses();
+
+        os << "Chromosome@" << &c << " {\n";
+        for (unsigned i = 0; i < classes.size(); i++) {
+            os << "\t" << std::to_string(i) << ": " << classes.at(i)
+               << (i + 1 == classes.size() ? "\n}\n" : ",\n");
+        }
+        return os;
+    }
 
 private:
     bool isIntervalValid(Class::Time a, Class::Time b);

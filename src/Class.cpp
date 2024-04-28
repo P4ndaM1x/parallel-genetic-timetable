@@ -30,3 +30,31 @@ void Class::setRandomStartTime()
         setStartTime(std::rand() % (Timetable::numberOfSlots - getDurationTime()));
     } while (not isIntervalValid());
 }
+
+std::string Class::serialize() const
+{
+    std::stringstream ss;
+    ss << std::to_string(getId()) << ",";
+    ss << std::to_string(getDurationTime()) << ",";
+    ss << std::to_string(getStartTime());
+    return ss.str();
+}
+
+Class Class::deserialize(const std::string& serializedString)
+{
+    std::stringstream ss(serializedString);
+    std::string token;
+
+    std::getline(ss, token, ',');
+    ID id = std::stoi(token);
+
+    std::getline(ss, token, ',');
+    Duration duration = std::stoi(token);
+
+    std::getline(ss, token);
+    Time startTime = std::stoi(token);
+
+    Class clazz = Class(id, duration);
+    clazz.setStartTime(startTime);
+    return clazz;
+}

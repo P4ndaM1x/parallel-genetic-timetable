@@ -8,7 +8,7 @@
 class GeneticAlgorithm {
 
 public:
-    using ChrosomeContainer = std::vector<Chromosome>;
+    using ChromosomeContainer = std::vector<Chromosome>;
 
     GeneticAlgorithm(
         Timetable& timetable,
@@ -18,7 +18,8 @@ public:
     );
 
     // entry point for the algorithm
-    void run();
+    ChromosomeContainer& run();
+    ChromosomeContainer& step();
     std::vector<Chromosome> getPopulation();
 
 private:
@@ -43,5 +44,5 @@ private:
     const double mutationRate;
     const double percentToKeep{0.1};
 
-    ChrosomeContainer population;
+    ChromosomeContainer population;
 };

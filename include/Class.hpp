@@ -20,12 +20,16 @@ public:
     Time getEndTime() const { return startTime + durationTime; }
     void setStartTime(const Time time) { startTime = time; }
     void setRandomStartTime();
+    std::string serialize() const;
+
+    static Class deserialize(const std::string& serializedString);
 
     friend std::ostream& operator<<(std::ostream& os, const Class& c)
     {
         os << "Class@" << &c;
         os << " { id: " << std::setw(3) << +c.getId();
         os << ", duration: " << std::setw(2) << +c.getDurationTime();
+        os << ", startTime: " << std::setw(2) << +c.getStartTime();
         return os << " }";
     }
 

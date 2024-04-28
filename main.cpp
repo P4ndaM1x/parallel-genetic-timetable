@@ -19,7 +19,8 @@ int main(int argc, char* argv[])
         CLI::Args::numberOfGenerations,
         CLI::Args::mutationRate
     };
-    geneticAlgorithm.run();
+
+    GeneticAlgorithm::ChromosomeContainer pop = geneticAlgorithm.run();
 
     Log::print("Printing solution...");
     timetable.print();
