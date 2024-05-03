@@ -22,7 +22,7 @@ GeneticAlgorithm::GeneticAlgorithm(
     }
 }
 
-std::vector<Chromosome> GeneticAlgorithm::getPopulation() { return population; }
+GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::getPopulation() { return population; }
 
 void GeneticAlgorithm::initialize()
 {

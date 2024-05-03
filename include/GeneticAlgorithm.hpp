@@ -20,11 +20,10 @@ public:
     // entry point for the algorithm
     ChromosomeContainer& run();
     ChromosomeContainer& step();
-    std::vector<Chromosome> getPopulation();
+    ChromosomeContainer& getPopulation();
+    void initialize();
 
 private:
-    // Initialize the population with random chromosomes
-    void initialize();
     // Perform the whole iteration of the algorithm
     void evolve();
     // Calculate the fitness of the current population

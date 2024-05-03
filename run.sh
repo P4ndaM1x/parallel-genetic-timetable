@@ -1,3 +1,3 @@
 #/bin/bash
 
-mpiexec -f ./nodes -ppn 1 ./build/main "$@"
+mpiexec -f ./nodes -n 2 ./build/main "$@"
