@@ -1,0 +1,12 @@
+<map id="include/Class.hpp" name="include/Class.hpp">
+<area shape="rect" id="node1" title="Header file for the Class class." alt="" coords="482,5,618,32"/>
+<area shape="rect" id="node2" href="$Chromosome_8hpp.html" title="Header file for the Chromosome class." alt="" coords="396,155,584,181"/>
+<area shape="rect" id="node5" href="$Chromosome_8cpp.html" title="Implementation file of the Chromosome class." alt="" coords="517,304,676,331"/>
+<area shape="rect" id="node8" href="$Timetable_8hpp.html" title="Header file for the Timetable class." alt="" coords="345,80,512,107"/>
+<area shape="rect" id="node10" href="$Class_8cpp.html" title="Implementation file of the Class class." alt="" coords="710,80,817,107"/>
+<area shape="rect" id="node3" href="$GeneticAlgorithm_8hpp.html" title="Header file for the GeneticAlgorithm class." alt="" coords="105,229,320,256"/>
+<area shape="rect" id="node6" href="$GeneticAlgorithm_8cpp.html" title="Implementation file of the GeneticAlgorithm class." alt="" coords="269,304,455,331"/>
+<area shape="rect" id="node7" href="$Timetable_8cpp.html" title="Implementation file of the Timetable class." alt="" coords="345,229,483,256"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="Main file of the project." alt="" coords="99,304,182,331"/>
+<area shape="rect" id="node9" href="$FileManager_8hpp.html" title="The file containing the FileManager class." alt="" coords="5,155,185,181"/>
+</map>

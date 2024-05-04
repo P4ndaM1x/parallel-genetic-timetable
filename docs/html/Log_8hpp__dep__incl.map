@@ -1,0 +1,8 @@
+<map id="include/Log.hpp" name="include/Log.hpp">
+<area shape="rect" id="node1" title="This file contains the declaration of the Log class and the Severity enum class." alt="" coords="217,5,341,32"/>
+<area shape="rect" id="node2" href="$CLIManager_8hpp.html" title="The file containing CLI::Args class." alt="" coords="5,80,183,107"/>
+<area shape="rect" id="node4" href="$Log_8cpp.html" title="Implementation file of the Log class." alt="" coords="167,155,261,181"/>
+<area shape="rect" id="node5" href="$Chromosome_8cpp.html" title="Implementation file of the Chromosome class." alt="" coords="259,80,417,107"/>
+<area shape="rect" id="node6" href="$GeneticAlgorithm_8cpp.html" title="Implementation file of the GeneticAlgorithm class." alt="" coords="442,80,629,107"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Main file of the project." alt="" coords="53,155,135,181"/>
+</map>

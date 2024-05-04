@@ -1,0 +1,85 @@
+\hypertarget{Log_8hpp}{}\doxysection{include/\+Log.hpp File Reference}
+\label{Log_8hpp}\index{include/Log.hpp@{include/Log.hpp}}
+
+
+This file contains the declaration of the \mbox{\hyperlink{classLog}{Log}} class and the Severity enum class.  
+
+
+{\ttfamily \#include $<$source\+\_\+location$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+Include dependency graph for Log.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{Log_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Log_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classLog}{Log}}
+\begin{DoxyCompactList}\small\item\em Provides logging functionality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726}{Severity}} \+: unsigned short \{ \newline
+\mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726adc30ec20708ef7b0f641ef78b7880a15}{DEBUG}} = 0
+, \mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a551b723eafd6a31d444fcb2f5920fbd3}{INFO}}
+, \mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a059e9861e0400dfbe05c98a841f3f96b}{WARNING}}
+, \mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726abb1ca97ec761fc37101737ba0aa2e7c5}{ERROR}}
+, \newline
+\mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a19da7170bea36556dde582519795f3fc}{FATAL}}
+ \}
+\begin{DoxyCompactList}\small\item\em Represents the severity levels of log messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains the declaration of the \mbox{\hyperlink{classLog}{Log}} class and the Severity enum class. 
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{Log_8cpp}{Log.\+cpp}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726}} 
+\index{Log.hpp@{Log.hpp}!Severity@{Severity}}
+\index{Severity@{Severity}!Log.hpp@{Log.hpp}}
+\doxysubsubsection{\texorpdfstring{Severity}{Severity}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726}{Severity}} \+: unsigned short\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Represents the severity levels of log messages. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEBUG@{DEBUG}!Log.hpp@{Log.hpp}}\index{Log.hpp@{Log.hpp}!DEBUG@{DEBUG}}}\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726adc30ec20708ef7b0f641ef78b7880a15}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726adc30ec20708ef7b0f641ef78b7880a15}} 
+DEBUG&Debug level \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO@{INFO}!Log.hpp@{Log.hpp}}\index{Log.hpp@{Log.hpp}!INFO@{INFO}}}\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a551b723eafd6a31d444fcb2f5920fbd3}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a551b723eafd6a31d444fcb2f5920fbd3}} 
+INFO&Information level \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WARNING@{WARNING}!Log.hpp@{Log.hpp}}\index{Log.hpp@{Log.hpp}!WARNING@{WARNING}}}\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a059e9861e0400dfbe05c98a841f3f96b}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a059e9861e0400dfbe05c98a841f3f96b}} 
+WARNING&Warning level \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR@{ERROR}!Log.hpp@{Log.hpp}}\index{Log.hpp@{Log.hpp}!ERROR@{ERROR}}}\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726abb1ca97ec761fc37101737ba0aa2e7c5}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726abb1ca97ec761fc37101737ba0aa2e7c5}} 
+ERROR&Error level \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FATAL@{FATAL}!Log.hpp@{Log.hpp}}\index{Log.hpp@{Log.hpp}!FATAL@{FATAL}}}\mbox{\Hypertarget{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a19da7170bea36556dde582519795f3fc}\label{Log_8hpp_a9095cc5e76bc599e9bd8c9a3ef927726a19da7170bea36556dde582519795f3fc}} 
+FATAL&Fatal level \\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,59 @@
+\hypertarget{classChromosome}{}\doxysection{Chromosome Class Reference}
+\label{classChromosome}\index{Chromosome@{Chromosome}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classChromosome_ab8d9e86e97d720310cfe3a45860d1fce}\label{classChromosome_ab8d9e86e97d720310cfe3a45860d1fce}} 
+using {\bfseries Time\+Slot} = std\+::vector$<$ \mbox{\hyperlink{classClass_ad3ead6941d95717580582109f49e8ac4}{Class\+::\+ID}} $>$
+\item 
+\mbox{\Hypertarget{classChromosome_a47c9b58a438d4e2840183340b176c48d}\label{classChromosome_a47c9b58a438d4e2840183340b176c48d}} 
+using {\bfseries Time\+Slot\+Container} = std\+::array$<$ Time\+Slot, Timetable\+::number\+Of\+Slots $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classChromosome_a655f3391ccc396b4ea2407b5692319c1}\label{classChromosome_a655f3391ccc396b4ea2407b5692319c1}} 
+{\bfseries Chromosome} (const Timetable\+::\+Class\+Container \&classes, const bool randomize\+Start\+Times=true)
+\item 
+\mbox{\Hypertarget{classChromosome_a8043a30b7ea0db65fc29c673d5e3edbc}\label{classChromosome_a8043a30b7ea0db65fc29c673d5e3edbc}} 
+void {\bfseries init} ()
+\item 
+\mbox{\Hypertarget{classChromosome_ab1af5aeaef3b040162177f87f214f91c}\label{classChromosome_ab1af5aeaef3b040162177f87f214f91c}} 
+void {\bfseries mutate} ()
+\item 
+\mbox{\Hypertarget{classChromosome_a8f11054ac065e369ff11968a6b20285b}\label{classChromosome_a8f11054ac065e369ff11968a6b20285b}} 
+uint32\+\_\+t {\bfseries calculate\+Error} ()
+\item 
+\mbox{\Hypertarget{classChromosome_a3937d94f3e4d10b57d7381b324be2d05}\label{classChromosome_a3937d94f3e4d10b57d7381b324be2d05}} 
+uint32\+\_\+t {\bfseries get\+Error} () const
+\item 
+\mbox{\Hypertarget{classChromosome_a047f33cebb198a2e4205d821a131b289}\label{classChromosome_a047f33cebb198a2e4205d821a131b289}} 
+void {\bfseries print\+Solution} () const
+\item 
+\mbox{\Hypertarget{classChromosome_aa69392e7822d759d31b075e0bac3afa7}\label{classChromosome_aa69392e7822d759d31b075e0bac3afa7}} 
+\mbox{\hyperlink{classClass}{Class}} {\bfseries get\+Class} (const \mbox{\hyperlink{classClass_ad3ead6941d95717580582109f49e8ac4}{Class\+::\+ID}}) const
+\item 
+\mbox{\Hypertarget{classChromosome_a1de30dc0bb6d5ac76fe059011108886b}\label{classChromosome_a1de30dc0bb6d5ac76fe059011108886b}} 
+Timetable\+::\+Class\+Container {\bfseries get\+Classes} () const
+\item 
+\mbox{\Hypertarget{classChromosome_afe6fc2a9b31b7fd19db23859a66a1181}\label{classChromosome_afe6fc2a9b31b7fd19db23859a66a1181}} 
+std\+::string {\bfseries serialize} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classChromosome_a566cc3245bc1f9b779d7c6e907b78f41}\label{classChromosome_a566cc3245bc1f9b779d7c6e907b78f41}} 
+static \mbox{\hyperlink{classChromosome}{Chromosome}} {\bfseries deserialize} (const std\+::string \&serialized\+String)
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classChromosome_a76b305eaa6cc1a513e64de3459e3b550}\label{classChromosome_a76b305eaa6cc1a513e64de3459e3b550}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classChromosome}{Chromosome}} \&c)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Chromosome_8hpp}{Chromosome.\+hpp}}\item 
+src/\mbox{\hyperlink{Chromosome_8cpp}{Chromosome.\+cpp}}\end{DoxyCompactItemize}

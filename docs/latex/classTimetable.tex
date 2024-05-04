@@ -1,0 +1,56 @@
+\hypertarget{classTimetable}{}\doxysection{Timetable Class Reference}
+\label{classTimetable}\index{Timetable@{Timetable}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTimetable_afe571a9e559e9de06ebdba58a577ba2f}\label{classTimetable_afe571a9e559e9de06ebdba58a577ba2f}} 
+using {\bfseries Class\+Container} = std\+::vector$<$ \mbox{\hyperlink{classClass}{Class}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTimetable_a7ec6944b3d41cb011e2fdeb92c1219aa}\label{classTimetable_a7ec6944b3d41cb011e2fdeb92c1219aa}} 
+{\bfseries Timetable} (std\+::vector$<$ \mbox{\hyperlink{classClass}{Class}} $>$ \&classes)
+\item 
+\mbox{\Hypertarget{classTimetable_ab2bad4bee1b599befaea5e32f8be5aa4}\label{classTimetable_ab2bad4bee1b599befaea5e32f8be5aa4}} 
+void {\bfseries add\+Classes} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classClass}{Class}} $>$ class\+List)
+\item 
+\mbox{\Hypertarget{classTimetable_a1d5e1a8fc23e782518e5085ff862344c}\label{classTimetable_a1d5e1a8fc23e782518e5085ff862344c}} 
+Class\+Container {\bfseries get\+Classes} () const
+\item 
+\mbox{\Hypertarget{classTimetable_a10814a4c21a899a498a42250ee548b2c}\label{classTimetable_a10814a4c21a899a498a42250ee548b2c}} 
+void {\bfseries print\+Classes} () const
+\item 
+\mbox{\Hypertarget{classTimetable_ac503d4921d4f8321ab18ede61f517954}\label{classTimetable_ac503d4921d4f8321ab18ede61f517954}} 
+void {\bfseries update\+Classes} (const Class\+Container \&new\+Classes)
+\item 
+\mbox{\Hypertarget{classTimetable_aded4e61948d5c7e2ab78a1fc292317ab}\label{classTimetable_aded4e61948d5c7e2ab78a1fc292317ab}} 
+void {\bfseries print} () const
+\item 
+\mbox{\Hypertarget{classTimetable_a4729b0b2d7b2014fdf2cd09d62cea019}\label{classTimetable_a4729b0b2d7b2014fdf2cd09d62cea019}} 
+std\+::string {\bfseries serialize} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTimetable_a183ed0e44d42aa7ce85c7b2e45d0d214}\label{classTimetable_a183ed0e44d42aa7ce85c7b2e45d0d214}} 
+static \mbox{\hyperlink{classTimetable}{Timetable}} {\bfseries deserialize} (const std\+::string \&serialized\+String)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTimetable_a0f280fcf0bec2f39b7829c6359be718f}\label{classTimetable_a0f280fcf0bec2f39b7829c6359be718f}} 
+static constexpr unsigned {\bfseries number\+Of\+Days} = 5
+\item 
+\mbox{\Hypertarget{classTimetable_af4d27ebb1a2f732a7bc25eb684fac571}\label{classTimetable_af4d27ebb1a2f732a7bc25eb684fac571}} 
+static constexpr unsigned {\bfseries slots\+Per\+Day} = 8
+\item 
+\mbox{\Hypertarget{classTimetable_a2fbfec6ea48b6c8c952a81cd68d16713}\label{classTimetable_a2fbfec6ea48b6c8c952a81cd68d16713}} 
+static constexpr std\+::size\+\_\+t {\bfseries number\+Of\+Slots} = number\+Of\+Days $\ast$ slots\+Per\+Day
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{Timetable_8hpp}{Timetable.\+hpp}}\item 
+src/\mbox{\hyperlink{Timetable_8cpp}{Timetable.\+cpp}}\end{DoxyCompactItemize}

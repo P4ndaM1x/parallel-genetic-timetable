@@ -1,3 +1,8 @@
+/**
+ * @file GeneticAlgorithm.hpp
+ * @brief Header file for the GeneticAlgorithm class.
+ * @see GeneticAlgorithm.cpp
+ */
 #pragma once
 
 #include "Chromosome.hpp"
