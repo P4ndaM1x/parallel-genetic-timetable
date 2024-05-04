@@ -6,5 +6,5 @@
 !test-config.ini
 .vscode/
 
-/docs
-!/docs/Doxyfile
+/docs/html
+/docs/latex

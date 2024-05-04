@@ -3,7 +3,8 @@ name: Documentation
 on: [push, pull_request]
 
 jobs:
-  build_docs:
+
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,3 +16,18 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/html/
+  
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
