@@ -2,6 +2,7 @@
 
 #include "Class.hpp"
 
+#include <iostream>
 #include <string>
 #include <vector>
 

@@ -40,9 +40,9 @@ std::string Class::serialize() const
     return ss.str();
 }
 
-Class Class::deserialize(const std::string& serializedString)
+Class Class::deserialize(const std::string& serializedClass)
 {
-    std::stringstream ss(serializedString);
+    std::stringstream ss(serializedClass);
     std::string token;
 
     std::getline(ss, token, ',');

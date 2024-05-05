@@ -20,6 +20,7 @@ GeneticAlgorithm::GeneticAlgorithm(
     for (unsigned i = 0; i < populationSize; i++) {
         population.push_back(Chromosome{timetable.getClasses()});
     }
+    initialize();
 }
 
 GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::getPopulation() { return population; }
@@ -46,6 +47,7 @@ void GeneticAlgorithm::evolve()
         }
 
         fitness();
+        sortPopulationByError();
         selectBest();
         crossover();
         mutate();
@@ -57,11 +59,15 @@ void GeneticAlgorithm::fitness()
     std::ranges::for_each(population, [](Chromosome& c) { c.calculateError(); });
 }
 
-void GeneticAlgorithm::selectBest()
+void GeneticAlgorithm::sortPopulationByError()
 {
     std::ranges::sort(population, [](const Chromosome& a, const Chromosome& b) {
         return a.getError() < b.getError();
     });
+}
+
+void GeneticAlgorithm::selectBest()
+{
     population.erase(std::begin(population) + populationSize * percentToKeep, std::end(population));
     population.reserve(populationSize);
 }
@@ -99,16 +105,6 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
     return Chromosome{newClasses};
 }
 
-GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::run()
-{
-    Log::print("Running genetic algorithm...");
-    initialize();
-    evolve();
-    Log::print("Saving solution...");
-    solution.updateClasses(population.at(0).getClasses());
-    return population;
-}
-
 GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::step()
 {
     Log::print("Running genetic algorithm step...");
@@ -116,4 +112,52 @@ GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::step()
     Log::print("Saving solution...");
     solution.updateClasses(population.at(0).getClasses());
     return population;
+}
+
+std::string GeneticAlgorithm::serializePopulation(const ChromosomeContainer& population)
+{
+    std::stringstream ss;
+    for (const auto& chromosome : population) {
+        ss << chromosome.serialize() << "\n";
+    }
+    std::string serializedPopulation = ss.str();
+    serializedPopulation.pop_back();
+    return serializedPopulation;
+}
+
+std::string GeneticAlgorithm::serializePopulationOfSize(unsigned size)
+{
+    sortPopulationByError();
+    GeneticAlgorithm::ChromosomeContainer bestPop(population.begin(), population.begin() + size);
+    return serializePopulation(bestPop);
+}
+
+GeneticAlgorithm::ChromosomeContainer
+GeneticAlgorithm::deserializePopulation(std::string serializedPopulation)
+{
+    std::stringstream iss(serializedPopulation);
+    std::string line;
+
+    GeneticAlgorithm::ChromosomeContainer deserializedChromosomes;
+    while (std::getline(iss, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        deserializedChromosomes.push_back(Chromosome::deserialize(line));
+    }
+    return deserializedChromosomes;
+}
+
+void GeneticAlgorithm::setPopulation(const ChromosomeContainer& updatedPopulation)
+{
+    this->population = updatedPopulation;
+}
+
+GeneticAlgorithm::ChromosomeContainer GeneticAlgorithm::getTopPopulationOfSize(unsigned size)
+{
+    fitness();
+    sortPopulationByError();
+    selectBest();
+
+    return ChromosomeContainer(population.begin(), population.begin() + size);
 }

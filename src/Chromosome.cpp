@@ -96,7 +96,7 @@ std::string Chromosome::serialize() const
 {
     std::stringstream ss;
     for (const auto& clazz : classes) {
-        ss << clazz.serialize() << "\n";
+        ss << clazz.serialize() << ";";
     }
     return ss.str();
 }
@@ -108,7 +108,7 @@ Chromosome Chromosome::deserialize(const std::string& serializedString)
 
     Timetable::ClassContainer classes;
 
-    while (std::getline(ss, line)) {
+    while (std::getline(ss, line, ';')) {
         Class clazz = Class::deserialize(line);
         classes.push_back(clazz);
     }

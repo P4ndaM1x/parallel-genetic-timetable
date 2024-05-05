@@ -18,10 +18,15 @@ public:
     );
 
     // entry point for the algorithm
-    ChromosomeContainer& run();
     ChromosomeContainer& step();
     ChromosomeContainer& getPopulation();
+    void setPopulation(const ChromosomeContainer& updatedPopulation);
     void initialize();
+    std::string serializePopulationOfSize(unsigned size);
+    ChromosomeContainer getTopPopulationOfSize(unsigned size);
+
+    static ChromosomeContainer deserializePopulation(std::string serializedPopulation);
+    static std::string serializePopulation(const ChromosomeContainer& population);
 
 private:
     // Perform the whole iteration of the algorithm
@@ -35,6 +40,7 @@ private:
 
     Chromosome makeLove(const Chromosome& a, const Chromosome& b);
 
+    void sortPopulationByError();
     void selectBest();
 
     Timetable& solution;
