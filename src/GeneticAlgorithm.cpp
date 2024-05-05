@@ -1,4 +1,9 @@
+/**
+ * @file GeneticAlgorithm.cpp
+ * @brief Implementation file of the GeneticAlgorithm class.
+ */
 #include "GeneticAlgorithm.hpp"
+
 #include "Chromosome.hpp"
 #include "Log.hpp"
 
