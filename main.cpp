@@ -6,86 +6,92 @@
 #include "CLIManager.hpp"
 #include "FileManager.hpp"
 #include "GeneticAlgorithm.hpp"
-#include "MPIManager.hpp"
+#include "MPINode.hpp"
 
 int main(int argc, char* argv[])
 {
-    MPIManager mpi{&argc, &argv};
-    CLI::Args::prepare(argc, argv, mpi);
+    MPINode node{&argc, &argv};
+    CLI::Args::prepare(argc, argv, node);
 
-    srand(time(NULL) + mpi.getRank());
+    srand(time(NULL) + node.getRank());
 
-    const auto numberOfWorkers = mpi.getSize() - 1; // Master node is not a worker
+    const auto numberOfWorkers = node.getSize() - 1; // Master node is not a worker
     const auto populationSizePerWorker = CLI::Args::populationSize / numberOfWorkers
         + (CLI::Args::populationSize % numberOfWorkers != 0); // ceil
 
-    if (mpi.isMaster()) {
+    if (node.isMaster()) {
         Timetable timetable;
         const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
         FileManager::loadClasses(testFilePath, timetable);
-        mpi.setMessage(timetable.serialize());
+        node.setMessage(timetable.serialize());
     }
     // Broadcast timetable to worker nodes
-    mpi.broadcastMessage();
+    node.broadcastMessage();
 
     GeneticAlgorithm geneticAlgorithm(
-        Timetable::deserialize(mpi.getMessage()),
+        Timetable::deserialize(node.getMessage()),
         CLI::Args::populationSize,
         CLI::Args::numberOfGenerations,
         CLI::Args::mutationRate
     );
 
-    for (unsigned step = 1; step <= MPIManager::STEPS; ++step) {
-        if (step != 1) {
+    const auto gatheringSteps = CLI::Args::numberOfGenerations / CLI::Args::gatheringFrequency;
+    for (unsigned step = 0; step <= gatheringSteps; ++step) {
+        if (step != 0) {
+            constexpr unsigned maxChromosomesToPrint = 3u;
+
             GeneticAlgorithm::ChromosomeContainer updatedPopulation
-                = GeneticAlgorithm::deserializePopulation(mpi.getMessage());
+                = GeneticAlgorithm::deserializePopulation(node.getMessage());
             geneticAlgorithm.setPopulation(updatedPopulation);
-            GeneticAlgorithm::ChromosomeContainer bestPop
-                = geneticAlgorithm.getBestPopulationOfSize(10);
-            if (mpi.isMaster()) {
-                std::cout << "Step " << step << "/" << MPIManager::STEPS << "\n";
-                for (unsigned i = 0; i < bestPop.size(); i++) {
-                    std::cout << "Chromosome[" << i << "] error: " << bestPop[i].getError() << "\n";
+            GeneticAlgorithm::ChromosomeContainer bestPopulation
+                = geneticAlgorithm.getBestPopulationOfSize(maxChromosomesToPrint);
+
+            if (node.isMaster()) {
+                Log::print(
+                    "Best chromosomes after gathering step " + std::to_string(step) + '/'
+                    + std::to_string(gatheringSteps) + ":"
+                );
+                for (unsigned i = 0; i < bestPopulation.size(); i++) {
+                    Log::print(
+                        std::to_string(i + 1u)
+                        + ". best chromosome error: " + std::to_string(bestPopulation[i].getError())
+                    );
                 }
             }
-            if (bestPop.at(0).getError() <= 0) {
+            if (bestPopulation.at(0).getError() <= 0)
                 break;
-            }
-            if (step == MPIManager::STEPS) {
+            if (step == gatheringSteps)
                 break;
-            }
         }
 
-        if (not mpi.isMaster()) {
-
+        if (not node.isMaster()) {
             geneticAlgorithm.step();
-
             // Send best population sample to master node
-            mpi.setMessage(geneticAlgorithm.serializePopulationOfSize(populationSizePerWorker));
-            mpi.sendMessageToMaster();
+            node.setMessage(geneticAlgorithm.serializePopulationOfSize(populationSizePerWorker));
+            node.sendMessageToMaster();
         }
 
-        if (mpi.isMaster()) {
+        if (node.isMaster()) {
             GeneticAlgorithm::ChromosomeContainer gatheredChromosomes;
-            for (int worker = 1; worker < mpi.getSize(); ++worker) {
+            for (int worker = 1; worker < node.getSize(); ++worker) {
 
                 // Gather best population samples from all nodes
-                mpi.receiveMessageFromWorker();
+                node.receiveMessageFromWorker();
 
                 GeneticAlgorithm::ChromosomeContainer subPopulation
-                    = GeneticAlgorithm::deserializePopulation(mpi.getMessage());
+                    = GeneticAlgorithm::deserializePopulation(node.getMessage());
                 gatheredChromosomes.insert(
                     gatheredChromosomes.end(), subPopulation.begin(), subPopulation.end()
                 );
             }
-            mpi.setMessage(GeneticAlgorithm::serializePopulation(gatheredChromosomes));
+            node.setMessage(GeneticAlgorithm::serializePopulation(gatheredChromosomes));
         }
 
         // Broadcast gathered chromosomes to all nodes
-        mpi.broadcastMessage();
+        node.broadcastMessage();
     }
 
-    if (mpi.isMaster()) {
+    if (node.isMaster()) {
         geneticAlgorithm.getPopulation().at(0).printSolution();
         Log::print("All done!\n");
     }

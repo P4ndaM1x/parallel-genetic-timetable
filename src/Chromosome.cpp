@@ -52,7 +52,7 @@ void Chromosome::printSolution() const
 void Chromosome::updateTimeSlotContainer()
 {
     std::ranges::for_each(timeSlots, [](auto& ts) { ts.clear(); });
-    for (auto& c : classes) {
+    for (const auto& c : classes) {
         for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
         }

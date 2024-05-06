@@ -5,6 +5,7 @@
 #include "Log.hpp"
 
 #include "CLIManager.hpp"
+#include "MPINode.hpp"
 
 #include <utility>
 
@@ -33,6 +34,9 @@ void Log::print(
     const std::string& functionName
 )
 {
+    if (not MPINode::isCalledFromMaster()) {
+        return;
+    }
     if (std::to_underlying(severity) < std::to_underlying(CLI::Args::logLevel)) {
         return;
     }

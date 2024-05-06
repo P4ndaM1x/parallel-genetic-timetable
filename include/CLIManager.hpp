@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Log.hpp"
-#include "MPIManager.hpp"
+#include "MPINode.hpp"
 
 #include <ext/CLI11.hpp>
 #include <filesystem>
@@ -30,7 +30,7 @@ public:
      * @param mpi The instance containing information if the process is master.
      * @return The exit code.
      */
-    static int prepare(int argc, char* argv[], const MPIManager& mpi)
+    static int prepare(int argc, char* argv[], const MPINode& node)
     {
         argv = app.ensure_utf8(argv);
 
@@ -42,14 +42,24 @@ public:
         app.add_option("-d,--dir", sampleDataDirPath, "Path to directory with sample data")
             ->check(detail::ExistingDirectoryValidator{})
             ->required();
-        app.add_option("-p,--population", populationSize, "Size of the population")
+        app.add_option(
+               "-p,--population",
+               populationSize,
+               "Size of the population at the start of each generation"
+        )
             ->check(Range{1u, std::numeric_limits<unsigned>::max()});
-        app.add_option("-g,--generations", numberOfGenerations, "Number of generations")
+        app.add_option("-g,--generations", numberOfGenerations, "Number of all generations")
+            ->check(Range{1u, std::numeric_limits<unsigned>::max()});
+        app.add_option(
+               "-f,--frequency",
+               gatheringFrequency,
+               "Number of generations between gathering best chromosomes"
+        )
             ->check(Range{1u, std::numeric_limits<unsigned>::max()});
         app.add_option("-m,--mutation", mutationRate, "Mutation rate")->check(Range{0.f, 1.f});
         app.set_config("--config");
 
-        customParse(argc, argv, mpi);
+        customParse(argc, argv, node);
         return 0;
     }
 
@@ -64,14 +74,19 @@ public:
     inline static Severity logLevel{Log::defaultSeverity};
 
     /**
-     * @brief The size of the population.
+     * @brief The size of the population at the start of each generation.
      */
     inline static unsigned populationSize{100};
 
     /**
-     * @brief The number of generations.
+     * @brief The total number of generations.
      */
     inline static unsigned numberOfGenerations{100};
+
+    /**
+     * @brief The number of generations between gathering best chromosomes.
+     */
+    inline static unsigned gatheringFrequency{10};
 
     /**
      * @brief The mutation rate.
@@ -94,16 +109,15 @@ private:
         return severityDescription.str();
     }
 
-    static void customParse(int argc, char* argv[], const MPIManager& mpi)
+    static void customParse(int argc, char* argv[], const MPINode& node)
     {
         try {
             app.parse(argc, argv);
         } catch (const CLI::ParseError& e) {
-            const auto printHelp = mpi.isMaster();
-            mpi.~MPIManager();
-            if (printHelp) {
+            const auto printHelp = node.isMaster();
+            node.~MPINode();
+            if (printHelp)
                 std::exit(app.exit(e));
-            }
             std::exit(-1);
         }
     }

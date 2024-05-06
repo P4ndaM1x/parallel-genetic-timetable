@@ -1,29 +1,34 @@
 /**
- * @file MPIManager.hpp
- * @brief MPIManager class definition
+ * @file MPINode.hpp
+ * @brief MPINode class definition
  */
 #pragma once
 
 #include "mpi.h"
 #include <string>
 
-class MPIManager {
+class MPINode {
 public:
     static constexpr int MASTER = 0;
-    static constexpr int STEPS = 10;
+    static bool isCalledFromMaster()
+    {
+        int localRank;
+        MPI_Comm_rank(MPI_COMM_WORLD, &localRank);
+        return localRank == MASTER;
+    }
 
-    MPIManager(int* argc, char*** argv)
+    MPINode(int* argc, char*** argv)
     {
         MPI_Init(argc, argv);
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         MPI_Comm_size(MPI_COMM_WORLD, &size);
     }
-    ~MPIManager() { MPI_Finalize(); }
+    ~MPINode() { MPI_Finalize(); }
 
-    MPIManager(const MPIManager&) = delete;
-    MPIManager& operator=(const MPIManager&) = delete;
-    MPIManager(MPIManager&&) = delete;
-    MPIManager& operator=(MPIManager&&) = delete;
+    MPINode(const MPINode&) = delete;
+    MPINode& operator=(const MPINode&) = delete;
+    MPINode(MPINode&&) = delete;
+    MPINode& operator=(MPINode&&) = delete;
 
     int getRank() const { return rank; }
     int getSize() const { return size; }
@@ -69,30 +74,6 @@ public:
             MPI_COMM_WORLD,
             MPI_STATUS_IGNORE
         );
-    }
-
-    static void
-    send(const void* buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
-    {
-        MPI_Send(buf, count, datatype, dest, tag, comm);
-    }
-
-    static void recv(
-        void* buf,
-        int count,
-        MPI_Datatype datatype,
-        int source,
-        int tag,
-        MPI_Comm comm,
-        MPI_Status* status
-    )
-    {
-        MPI_Recv(buf, count, datatype, source, tag, comm, status);
-    }
-
-    static void bcast(void* buf, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
-    {
-        MPI_Bcast(buf, count, datatype, root, comm);
     }
 
 private:

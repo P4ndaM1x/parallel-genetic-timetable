@@ -32,7 +32,7 @@ std::string Timetable::serialize() const
 {
     std::stringstream ss;
     for (const auto& clazz : classes) {
-        ss << clazz.serialize() << ';';
+        ss << clazz.serialize() << ";";
     }
     return ss.str();
 }
