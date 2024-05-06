@@ -35,13 +35,16 @@ public:
      * @brief Prints a message to the standard output.
      *
      * Print format: "SEVERITY | FUNCTION_NAME | MESSAGE".
-     * The message is printed only if the severity level is greater than or equal to the CLI::Args::logLevel.
-     * 
+     * The message is printed only if the severity level is greater than or equal to the
+     * CLI::Args::logLevel and called from the master node.
+     *
      *
      * @param message The log message to print.
      * @param severity The severity level of the log message.
-     * @param carriageReturn Whether to add a carriage return instead of a new line before printing the message.
-     * @param functionName The simplified prototype of the function where the log message is printed.
+     * @param carriageReturn Whether to add a carriage return instead of a new line before printing
+     * the message.
+     * @param functionName The simplified prototype of the function where the log message is
+     * printed.
      */
     static void print(
         const std::string& message = "",
