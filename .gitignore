@@ -5,6 +5,7 @@
 *.ini
 !test-config.ini
 .vscode/
+.docker/
 
 /docs/html
 /docs/latex

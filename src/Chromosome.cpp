@@ -5,6 +5,7 @@
 #include "Chromosome.hpp"
 
 #include "Class.hpp"
+#include "GeneticAlgorithm.hpp"
 #include "Log.hpp"
 #include "Timetable.hpp"
 
@@ -95,3 +96,27 @@ Class Chromosome::getClass(const Class::ID classID) const
 }
 
 Timetable::ClassContainer Chromosome::getClasses() const { return classes; }
+
+std::string Chromosome::serialize() const
+{
+    std::stringstream ss;
+    for (const auto& clazz : classes) {
+        ss << clazz.serialize() << ";";
+    }
+    return ss.str();
+}
+
+Chromosome Chromosome::deserialize(const std::string& serializedString)
+{
+    std::stringstream ss(serializedString);
+    std::string line;
+
+    Timetable::ClassContainer classes;
+
+    while (std::getline(ss, line, ';')) {
+        Class clazz = Class::deserialize(line);
+        classes.push_back(clazz);
+    }
+
+    return Chromosome(classes, false);
+}

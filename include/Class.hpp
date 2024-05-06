@@ -75,6 +75,9 @@ public:
      * @note This function assumes that the Timetable::numberOfSlots and the duration time of the class have been properly set.
      */
     void setRandomStartTime();
+    std::string serialize() const;
+
+    static Class deserialize(const std::string& serializedString);
 
     /**
      * @brief Overloaded stream insertion operator for the Class class.
@@ -91,6 +94,7 @@ public:
         os << "Class@" << &c;
         os << " { id: " << std::setw(3) << +c.getId();
         os << ", duration: " << std::setw(2) << +c.getDurationTime();
+        os << ", startTime: " << std::setw(2) << +c.getStartTime();
         return os << " }";
     }
     

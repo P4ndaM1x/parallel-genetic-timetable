@@ -13,22 +13,28 @@
 class GeneticAlgorithm {
 
 public:
-    using ChrosomeContainer = std::vector<Chromosome>;
+    using ChromosomeContainer = std::vector<Chromosome>;
 
     GeneticAlgorithm(
-        Timetable& timetable,
+        const Timetable& timetable,
         const unsigned populationSize,
         const unsigned numberOfGenerations,
         const double mutationRate
     );
 
     // entry point for the algorithm
-    void run();
-    std::vector<Chromosome> getPopulation();
+    ChromosomeContainer& step();
+    ChromosomeContainer& getPopulation();
+    void setPopulation(const ChromosomeContainer& updatedPopulation);
+    void initialize();
+    void sortPopulationByError();
+    std::string serializePopulationOfSize(unsigned size);
+    ChromosomeContainer getBestPopulationOfSize(unsigned size);
+
+    static ChromosomeContainer deserializePopulation(std::string serializedPopulation);
+    static std::string serializePopulation(const ChromosomeContainer& population);
 
 private:
-    // Initialize the population with random chromosomes
-    void initialize();
     // Perform the whole iteration of the algorithm
     void evolve();
     // Calculate the fitness of the current population
@@ -42,11 +48,11 @@ private:
 
     void selectBest();
 
-    Timetable& solution;
+    Timetable solution;
     const unsigned populationSize;
     const unsigned numberOfGenerations;
     const double mutationRate;
     const double percentToKeep{0.1};
 
-    ChrosomeContainer population;
+    ChromosomeContainer population;
 };

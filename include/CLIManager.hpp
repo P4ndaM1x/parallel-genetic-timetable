@@ -69,7 +69,7 @@ public:
     /**
      * @brief The number of generations.
      */
-    inline static unsigned numberOfGenerations{1000};
+    inline static unsigned numberOfGenerations{100};
 
     /**
      * @brief The mutation rate.
