@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
         }
 
         if (not node.isMaster()) {
-            geneticAlgorithm.step();
+            geneticAlgorithm.run();
             // Send best population sample to master node
             node.setMessage(geneticAlgorithm.serializePopulationOfSize(populationSizePerWorker));
             node.sendMessageToMaster();

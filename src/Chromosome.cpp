@@ -5,7 +5,6 @@
 #include "Chromosome.hpp"
 
 #include "Class.hpp"
-#include "GeneticAlgorithm.hpp"
 #include "Log.hpp"
 #include "Timetable.hpp"
 
@@ -75,13 +74,12 @@ void Chromosome::mutate()
     updateTimeSlotContainer();
 }
 
-uint32_t Chromosome::calculateError()
+void Chromosome::calculateError()
 {
     error = 0;
     for (auto& slot : timeSlots) {
         slot.size() > 1 ? error += slot.size() - 1 : 0;
     }
-    return 0;
 }
 
 uint32_t Chromosome::getError() const { return error; }

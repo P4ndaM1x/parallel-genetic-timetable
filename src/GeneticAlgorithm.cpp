@@ -111,13 +111,12 @@ Chromosome GeneticAlgorithm::makeLove(const Chromosome& a, const Chromosome& b)
     return Chromosome{newClasses};
 }
 
-GeneticAlgorithm::ChromosomeContainer& GeneticAlgorithm::step()
+void GeneticAlgorithm::run()
 {
     Log::print("Running genetic algorithm step...");
     evolve();
     Log::print("Saving solution...");
     solution.updateClasses(population.at(0).getClasses());
-    return population;
 }
 
 std::string GeneticAlgorithm::serializePopulation(const ChromosomeContainer& population)
@@ -131,7 +130,7 @@ std::string GeneticAlgorithm::serializePopulation(const ChromosomeContainer& pop
     return serializedPopulation;
 }
 
-std::string GeneticAlgorithm::serializePopulationOfSize(unsigned size)
+std::string GeneticAlgorithm::serializePopulationOfSize(const unsigned size)
 {
     sortPopulationByError();
     GeneticAlgorithm::ChromosomeContainer bestPop(population.begin(), population.begin() + size);
@@ -139,7 +138,7 @@ std::string GeneticAlgorithm::serializePopulationOfSize(unsigned size)
 }
 
 GeneticAlgorithm::ChromosomeContainer
-GeneticAlgorithm::deserializePopulation(std::string serializedPopulation)
+GeneticAlgorithm::deserializePopulation(const std::string& serializedPopulation)
 {
     std::stringstream iss(serializedPopulation);
     std::string line;
@@ -159,7 +158,7 @@ void GeneticAlgorithm::setPopulation(const ChromosomeContainer& updatedPopulatio
     this->population = updatedPopulation;
 }
 
-GeneticAlgorithm::ChromosomeContainer GeneticAlgorithm::getBestPopulationOfSize(unsigned size)
+GeneticAlgorithm::ChromosomeContainer GeneticAlgorithm::getBestPopulationOfSize(const unsigned size)
 {
     fitness();
     sortPopulationByError();
