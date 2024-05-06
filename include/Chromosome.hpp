@@ -26,9 +26,6 @@ public:
     void printSolution() const;
     Class getClass(const Class::ID) const;
     Timetable::ClassContainer getClasses() const;
-    // std::string serialize() const;
-
-    // static Chromosome deserialize(const std::string& serializedString);
 
     friend std::ostream& operator<<(std::ostream& os, const Chromosome& c)
     {

@@ -73,10 +73,10 @@ int main(int argc, char* argv[])
 
         if (node.isMaster()) {
             GeneticAlgorithm::ChromosomeContainer gatheredChromosomes;
-            for (int worker = 1; worker < node.getSize(); ++worker) {
+            for (int workerRank = 1; workerRank < node.getSize(); ++workerRank) {
 
                 // Gather best population samples from all nodes
-                node.receiveMessageFromWorker();
+                node.receiveMessageFromWorker(workerRank);
 
                 GeneticAlgorithm::ChromosomeContainer subPopulation
                     = GeneticAlgorithm::deserializePopulation(node.getMessage());
@@ -93,8 +93,8 @@ int main(int argc, char* argv[])
 
     if (node.isMaster()) {
         geneticAlgorithm.getPopulation().at(0).printSolution();
-        Log::print("All done!\n");
     }
+    Log::print("All done!\n");
 
     return 0;
 }

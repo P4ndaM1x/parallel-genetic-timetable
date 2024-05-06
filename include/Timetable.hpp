@@ -17,6 +17,7 @@ public:
     static constexpr unsigned numberOfDays = 5;
     static constexpr unsigned slotsPerDay = 8;
     static constexpr std::size_t numberOfSlots = numberOfDays * slotsPerDay;
+
     using ClassContainer = std::vector<Class>;
     Timetable(const ClassContainer& classes);
     Timetable() = default;

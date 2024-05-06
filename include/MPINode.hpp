@@ -58,18 +58,18 @@ public:
         MPI_Send(message.content.data(), message.size, MPI_CHAR, MASTER, 0, MPI_COMM_WORLD);
     }
 
-    void receiveMessageFromWorker()
+    void receiveMessageFromWorker(const int workerRank)
     {
         if (not isMaster())
             return;
 
-        MPI_Recv(&message.size, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(&message.size, 1, MPI_INT, workerRank, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         message.content.resize(message.size);
         MPI_Recv(
             message.content.data(),
             message.size,
             MPI_CHAR,
-            MPI_ANY_SOURCE,
+            workerRank,
             0,
             MPI_COMM_WORLD,
             MPI_STATUS_IGNORE
