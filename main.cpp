@@ -23,17 +23,17 @@ int main(int argc, char* argv[])
         Timetable timetable;
         const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
         FileManager::loadClasses(testFilePath, timetable);
-        node.setMessage(timetable.serialize());
+        node.setMessage(Timetable::serializeClasses(timetable.getClasses()));
     }
     // Broadcast timetable to worker nodes
     node.broadcastMessage();
 
-    GeneticAlgorithm geneticAlgorithm(
-        Timetable::deserialize(node.getMessage()),
+    GeneticAlgorithm geneticAlgorithm{
+        Timetable::deserializeClasses(node.getMessage()),
         CLI::Args::populationSize,
         CLI::Args::numberOfGenerations,
         CLI::Args::mutationRate
-    );
+    };
 
     const auto gatheringSteps = CLI::Args::numberOfGenerations / CLI::Args::gatheringFrequency;
     for (unsigned step = 0; step <= gatheringSteps; ++step) {

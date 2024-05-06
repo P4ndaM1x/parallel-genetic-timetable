@@ -7,7 +7,6 @@
 
 #include "Class.hpp"
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -19,7 +18,7 @@ public:
     static constexpr unsigned slotsPerDay = 8;
     static constexpr std::size_t numberOfSlots = numberOfDays * slotsPerDay;
     using ClassContainer = std::vector<Class>;
-    Timetable(std::vector<Class>& classes);
+    Timetable(const ClassContainer& classes);
     Timetable() = default;
 
     void addClasses(std::initializer_list<Class> classList);
@@ -27,9 +26,9 @@ public:
     void printClasses() const;
     void updateClasses(const ClassContainer& newClasses) { classes = newClasses; }
     void print() const;
-    std::string serialize() const;
 
-    static Timetable deserialize(const std::string& serializedString);
+    static std::string serializeClasses(const ClassContainer& classes);
+    static ClassContainer deserializeClasses(const std::string& serializedClasses);
 
 private:
     ClassContainer classes;

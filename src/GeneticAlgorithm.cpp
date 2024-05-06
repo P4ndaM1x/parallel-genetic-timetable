@@ -6,6 +6,7 @@
 
 #include "Chromosome.hpp"
 #include "Log.hpp"
+#include "Timetable.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -123,7 +124,7 @@ std::string GeneticAlgorithm::serializePopulation(const ChromosomeContainer& pop
 {
     std::stringstream ss;
     for (const auto& chromosome : population) {
-        ss << chromosome.serialize() << "\n";
+        ss << Timetable::serializeClasses(chromosome.getClasses()) << "\n";
     }
     std::string serializedPopulation = ss.str();
     serializedPopulation.pop_back();
@@ -148,7 +149,7 @@ GeneticAlgorithm::deserializePopulation(std::string serializedPopulation)
         if (line.empty()) {
             continue;
         }
-        deserializedPopulation.push_back(Chromosome::deserialize(line));
+        deserializedPopulation.push_back(Chromosome{Timetable::deserializeClasses(line), false});
     }
     return deserializedPopulation;
 }
