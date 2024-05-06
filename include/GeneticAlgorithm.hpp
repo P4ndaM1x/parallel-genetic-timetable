@@ -11,7 +11,7 @@ public:
     using ChromosomeContainer = std::vector<Chromosome>;
 
     GeneticAlgorithm(
-        Timetable& timetable,
+        const Timetable& timetable,
         const unsigned populationSize,
         const unsigned numberOfGenerations,
         const double mutationRate
@@ -22,8 +22,9 @@ public:
     ChromosomeContainer& getPopulation();
     void setPopulation(const ChromosomeContainer& updatedPopulation);
     void initialize();
+    void sortPopulationByError();
     std::string serializePopulationOfSize(unsigned size);
-    ChromosomeContainer getTopPopulationOfSize(unsigned size);
+    ChromosomeContainer getBestPopulationOfSize(unsigned size);
 
     static ChromosomeContainer deserializePopulation(std::string serializedPopulation);
     static std::string serializePopulation(const ChromosomeContainer& population);
@@ -40,10 +41,9 @@ private:
 
     Chromosome makeLove(const Chromosome& a, const Chromosome& b);
 
-    void sortPopulationByError();
     void selectBest();
 
-    Timetable& solution;
+    Timetable solution;
     const unsigned populationSize;
     const unsigned numberOfGenerations;
     const double mutationRate;

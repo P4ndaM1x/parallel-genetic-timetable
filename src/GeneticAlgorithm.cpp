@@ -7,7 +7,7 @@
 #include <iterator>
 
 GeneticAlgorithm::GeneticAlgorithm(
-    Timetable& timetable,
+    const Timetable& timetable,
     const unsigned populationSize,
     const unsigned numberOfGenerations,
     const double mutationRate
@@ -138,14 +138,14 @@ GeneticAlgorithm::deserializePopulation(std::string serializedPopulation)
     std::stringstream iss(serializedPopulation);
     std::string line;
 
-    GeneticAlgorithm::ChromosomeContainer deserializedChromosomes;
+    GeneticAlgorithm::ChromosomeContainer deserializedPopulation;
     while (std::getline(iss, line)) {
         if (line.empty()) {
             continue;
         }
-        deserializedChromosomes.push_back(Chromosome::deserialize(line));
+        deserializedPopulation.push_back(Chromosome::deserialize(line));
     }
-    return deserializedChromosomes;
+    return deserializedPopulation;
 }
 
 void GeneticAlgorithm::setPopulation(const ChromosomeContainer& updatedPopulation)
@@ -153,11 +153,9 @@ void GeneticAlgorithm::setPopulation(const ChromosomeContainer& updatedPopulatio
     this->population = updatedPopulation;
 }
 
-GeneticAlgorithm::ChromosomeContainer GeneticAlgorithm::getTopPopulationOfSize(unsigned size)
+GeneticAlgorithm::ChromosomeContainer GeneticAlgorithm::getBestPopulationOfSize(unsigned size)
 {
     fitness();
     sortPopulationByError();
-    selectBest();
-
-    return ChromosomeContainer(population.begin(), population.begin() + size);
+    return GeneticAlgorithm::ChromosomeContainer(population.begin(), population.begin() + size);
 }

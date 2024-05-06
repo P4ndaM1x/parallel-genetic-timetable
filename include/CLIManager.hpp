@@ -37,8 +37,8 @@ public:
 
     inline static std::filesystem::path sampleDataDirPath;
     inline static Severity logLevel{Log::defaultSeverity};
-    inline static unsigned populationSize{100};
-    inline static unsigned numberOfGenerations{100};
+    inline static unsigned populationSize{200};
+    inline static unsigned numberOfGenerations{200};
     inline static double mutationRate{0.01};
 
 private:
