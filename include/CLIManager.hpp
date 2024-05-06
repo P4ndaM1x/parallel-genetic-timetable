@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Log.hpp"
+#include "MPIManager.hpp"
 
 #include <ext/CLI11.hpp>
 #include <filesystem>
@@ -26,9 +27,10 @@ public:
      * @brief Prepares the command line arguments.
      * @param argc The number of command line arguments.
      * @param argv The array of command line arguments.
+     * @param mpi The instance containing information if the process is master.
      * @return The exit code.
      */
-    static int prepare(int argc, char* argv[])
+    static int prepare(int argc, char* argv[], const MPIManager& mpi)
     {
         argv = app.ensure_utf8(argv);
 
@@ -47,7 +49,7 @@ public:
         app.add_option("-m,--mutation", mutationRate, "Mutation rate")->check(Range{0.f, 1.f});
         app.set_config("--config");
 
-        customParse(argc, argv);
+        customParse(argc, argv, mpi);
         return 0;
     }
 
@@ -92,12 +94,17 @@ private:
         return severityDescription.str();
     }
 
-    static void customParse(int argc, char* argv[])
+    static void customParse(int argc, char* argv[], const MPIManager& mpi)
     {
         try {
             app.parse(argc, argv);
-        } catch (const CLI ::ParseError& e) {
-            std::exit(app.exit(e));
+        } catch (const CLI::ParseError& e) {
+            const auto printHelp = mpi.isMaster();
+            mpi.~MPIManager();
+            if (printHelp) {
+                std::exit(app.exit(e));
+            }
+            std::exit(-1);
         }
     }
 

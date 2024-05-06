@@ -11,11 +11,13 @@
 int main(int argc, char* argv[])
 {
     MPIManager mpi{&argc, &argv};
-    CLI::Args::prepare(argc, argv);
+    CLI::Args::prepare(argc, argv, mpi);
 
     srand(time(NULL) + mpi.getRank());
 
-    const int POPULATION_SAMPLE_SIZE = CLI::Args::populationSize / (mpi.getSize() - 1);
+    const auto numberOfWorkers = mpi.getSize() - 1; // Master node is not a worker
+    const auto populationSizePerWorker = CLI::Args::populationSize / numberOfWorkers
+        + (CLI::Args::populationSize % numberOfWorkers != 0); // ceil
 
     if (mpi.isMaster()) {
         Timetable timetable;
@@ -59,7 +61,7 @@ int main(int argc, char* argv[])
             geneticAlgorithm.step();
 
             // Send best population sample to master node
-            mpi.setMessage(geneticAlgorithm.serializePopulationOfSize(POPULATION_SAMPLE_SIZE));
+            mpi.setMessage(geneticAlgorithm.serializePopulationOfSize(populationSizePerWorker));
             mpi.sendMessageToMaster();
         }
 
@@ -68,7 +70,7 @@ int main(int argc, char* argv[])
             for (int worker = 1; worker < mpi.getSize(); ++worker) {
 
                 // Gather best population samples from all nodes
-                mpi.recieveMessageFromWorker();
+                mpi.receiveMessageFromWorker();
 
                 GeneticAlgorithm::ChromosomeContainer subPopulation
                     = GeneticAlgorithm::deserializePopulation(mpi.getMessage());

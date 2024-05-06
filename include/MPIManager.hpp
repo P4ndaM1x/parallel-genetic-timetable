@@ -29,18 +29,18 @@ public:
     int getSize() const { return size; }
     bool isMaster() const { return rank == MASTER; }
 
-    void setMessage(const std::string& text)
+    void setMessage(const std::string_view& data)
     {
-        message.data = text;
-        message.size = message.data.size();
+        message.content = data;
+        message.size = message.content.size();
     }
-    std::string getMessage() const { return message.data; }
+    std::string getMessage() const { return message.content; }
 
     void broadcastMessage()
     {
         MPI_Bcast(&message.size, 1, MPI_INT, MASTER, MPI_COMM_WORLD);
-        message.data.resize(message.size);
-        MPI_Bcast(&message.data[0], message.size, MPI_CHAR, MASTER, MPI_COMM_WORLD);
+        message.content.resize(message.size);
+        MPI_Bcast(message.content.data(), message.size, MPI_CHAR, MASTER, MPI_COMM_WORLD);
     }
 
     void sendMessageToMaster()
@@ -48,20 +48,20 @@ public:
         if (isMaster())
             return;
 
-        message.size = message.data.size();
+        message.size = message.content.size();
         MPI_Send(&message.size, 1, MPI_INT, MASTER, 0, MPI_COMM_WORLD);
-        MPI_Send(&message.data[0], message.size, MPI_CHAR, MASTER, 0, MPI_COMM_WORLD);
+        MPI_Send(message.content.data(), message.size, MPI_CHAR, MASTER, 0, MPI_COMM_WORLD);
     }
 
-    void recieveMessageFromWorker()
+    void receiveMessageFromWorker()
     {
         if (not isMaster())
             return;
 
         MPI_Recv(&message.size, 1, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        message.data.resize(message.size);
+        message.content.resize(message.size);
         MPI_Recv(
-            &message.data[0],
+            message.content.data(),
             message.size,
             MPI_CHAR,
             MPI_ANY_SOURCE,
@@ -97,10 +97,10 @@ public:
 
 private:
     struct Message {
-        int size;
-        std::string data;
+        std::string content{};
+        int size{-1};
     } message;
 
-    int rank;
-    int size;
+    int rank{-1};
+    int size{-1};
 };
