@@ -5,10 +5,7 @@
 *.ini
 !test-config.ini
 .vscode/
-<<<<<<< HEAD
 .docker/
-=======
 
 /docs/html
 /docs/latex
->>>>>>> master
