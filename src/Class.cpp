@@ -46,7 +46,7 @@ std::string Class::serialize() const
 
 Class Class::deserialize(const std::string& serializedClass)
 {
-    std::stringstream ss(serializedClass);
+    std::stringstream ss{serializedClass};
     std::string token;
 
     std::getline(ss, token, ',');
@@ -58,7 +58,7 @@ Class Class::deserialize(const std::string& serializedClass)
     std::getline(ss, token);
     Time startTime = std::stoi(token);
 
-    Class clazz = Class(id, duration);
+    Class clazz = Class{id, duration};
     clazz.setStartTime(startTime);
     return clazz;
 }

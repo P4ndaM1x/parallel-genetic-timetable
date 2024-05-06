@@ -21,33 +21,32 @@ void Timetable::printClasses() const
 
 void Timetable::print() const { Chromosome{classes, false}.printSolution(); }
 
-Timetable::Timetable(std::vector<Class>& classes)
+Timetable::Timetable(const ClassContainer& classes)
 {
     for (const auto& c : classes) {
         this->classes.push_back(c);
     }
 }
 
-std::string Timetable::serialize() const
+std::string Timetable::serializeClasses(const ClassContainer& classes)
 {
     std::stringstream ss;
-    for (const auto& clazz : classes) {
-        ss << clazz.serialize() << ';';
+    for (const auto& c : classes) {
+        ss << c.serialize() << ";";
     }
     return ss.str();
 }
 
-Timetable Timetable::deserialize(const std::string& serializedString)
+Timetable::ClassContainer Timetable::deserializeClasses(const std::string& serializedClasses)
 {
-    std::stringstream ss(serializedString);
+    std::stringstream ss{serializedClasses};
     std::string line;
 
     Timetable::ClassContainer classes;
 
     while (std::getline(ss, line, ';')) {
-        Class clazz = Class::deserialize(line);
-        classes.push_back(clazz);
+        classes.push_back(Class::deserialize(line));
     }
 
-    return Timetable(classes);
+    return classes;
 }

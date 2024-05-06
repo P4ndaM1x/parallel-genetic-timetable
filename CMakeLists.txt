@@ -8,10 +8,10 @@ add_custom_target(clear
 )
 
 add_custom_target(test
-    COMMAND ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
+    COMMAND mpiexec -n 2 ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
 )
 
-set(CMAKE_CXX_COMPILER "mpicxx")
+set(CMAKE_CXX_COMPILER "/home/nfs/._off_mpich-4.0.1/bin/mpicxx")
 set(CMAKE_CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
 add_compile_options(${CMAKE_CXX_FLAGS})
@@ -34,5 +34,5 @@ add_executable(main ${SOURCES} main.cpp)
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-include_directories("/usr/lib/x86_64-linux-gnu/openmpi/include")
+include_directories("/home/nfs/._off_mpich-4.0.1/include")
 target_link_libraries(main PUBLIC m ext)

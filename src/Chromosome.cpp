@@ -52,7 +52,7 @@ void Chromosome::printSolution() const
 void Chromosome::updateTimeSlotContainer()
 {
     std::ranges::for_each(timeSlots, [](auto& ts) { ts.clear(); });
-    for (auto& c : classes) {
+    for (const auto& c : classes) {
         for (auto i = c.getStartTime(); i < c.getEndTime(); i++) {
             timeSlots.at(i).push_back(c.getId());
         }
@@ -96,27 +96,3 @@ Class Chromosome::getClass(const Class::ID classID) const
 }
 
 Timetable::ClassContainer Chromosome::getClasses() const { return classes; }
-
-std::string Chromosome::serialize() const
-{
-    std::stringstream ss;
-    for (const auto& clazz : classes) {
-        ss << clazz.serialize() << ";";
-    }
-    return ss.str();
-}
-
-Chromosome Chromosome::deserialize(const std::string& serializedString)
-{
-    std::stringstream ss(serializedString);
-    std::string line;
-
-    Timetable::ClassContainer classes;
-
-    while (std::getline(ss, line, ';')) {
-        Class clazz = Class::deserialize(line);
-        classes.push_back(clazz);
-    }
-
-    return Chromosome(classes, false);
-}
