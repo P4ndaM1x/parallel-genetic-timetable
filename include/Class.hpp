@@ -22,7 +22,7 @@ public:
 
     /**
      * @brief Constructs a Class object with the given ID and duration time.
-     * 
+     *
      * @param id The ID of the class.
      * @param durationTime The duration time of the class.
      */
@@ -30,61 +30,61 @@ public:
 
     /**
      * @brief Gets the ID of the class.
-     * 
+     *
      * @return The ID of the class.
      */
     ID getId() const { return id; }
 
     /**
      * @brief Gets the duration time of the class.
-     * 
+     *
      * @return The duration time of the class.
      */
     Duration getDurationTime() const { return durationTime; }
 
     /**
      * @brief Gets the start time of the class.
-     * 
+     *
      * @return The start time of the class.
      */
     Time getStartTime() const { return startTime; }
 
     /**
      * @brief Gets the end time of the class.
-     * 
+     *
      * @return The end time of the class.
      */
     Time getEndTime() const { return startTime + durationTime; }
 
     /**
      * @brief Sets the start time of the class.
-     * 
+     *
      * @param time The start time to set.
      */
     void setStartTime(const Time time) { startTime = time; }
 
     /**
      * @brief Sets a random start time for the class.
-     * 
-     * This function sets a random start time for the class within the valid time slots of the timetable.
-     * It uses the std::rand() function to generate a random number and sets the start time using the  result.
-     * The start time is calculated as the modulo of the random number with the difference between the total number of slots in the timetable and the duration time of the class.
-     * The function then checks if the interval is valid using the isIntervalValid() function.
-     * If the interval is not valid, the process is repeated until a valid interval is found.
-     * 
-     * @note This function assumes that the Timetable::numberOfSlots and the duration time of the class have been properly set.
+     *
+     * This function sets a random start time for the class within the valid time slots of the
+     * timetable. It uses the std::rand() function to generate a random number and sets the start
+     * time using the  result. The start time is calculated as the modulo of the random number with
+     * the difference between the total number of slots in the timetable and the duration time of
+     * the class. The function then checks if the interval is valid using the isIntervalValid()
+     * function. If the interval is not valid, the process is repeated until a valid interval is
+     * found.
+     *
+     * @note This function assumes that the Timetable::numberOfSlots and the duration time of the
+     * class have been properly set.
      */
     void setRandomStartTime();
-    std::string serialize() const;
-
-    static Class deserialize(const std::string& serializedString);
 
     /**
      * @brief Overloaded stream insertion operator for the Class class.
-     * 
+     *
      * This function allows the Class object to be printed to an output stream.
      * The output format includes the object's address, id, duration, and start time.
-     * 
+     *
      * @param os The output stream to write to.
      * @param c The Class object to be printed.
      * @return The modified output stream.
@@ -97,17 +97,17 @@ public:
         os << ", startTime: " << std::setw(2) << +c.getStartTime();
         return os << " }";
     }
-    
+
     /**
      * @brief Serializes the class object to a string.
-     * 
+     *
      * @return The serialized string.
      */
     std::string serialize() const;
 
     /**
      * @brief Deserializes the class object from a string.
-     * 
+     *
      * @param serializedString The serialized string.
      * @return The deserialized class object.
      */

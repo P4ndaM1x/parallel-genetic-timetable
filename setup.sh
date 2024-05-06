@@ -1,7 +1,7 @@
 #/bin/bash
 
 echo "testing machines connectivity:"
-/opt/nfs/config/station204_name_list.sh 1 2 | tee nodes
+/opt/nfs/config/station204_name_list.sh 1 16 | tee nodes
 
 echo "sourcing mpich:"
 source /opt/nfs/config/source_mpich401.sh
