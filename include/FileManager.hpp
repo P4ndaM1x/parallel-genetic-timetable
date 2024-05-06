@@ -1,3 +1,7 @@
+/**
+ * @file FileManager.hpp
+ * @brief The file containing the FileManager class.
+ */
 #pragma once
 
 #include "Timetable.hpp"
@@ -5,12 +9,20 @@
 #include <algorithm>
 #include <ext/csv.hpp>
 
+/**
+ * @brief Manages loading classes from a CSV file.
+ */
 class FileManager {
 public:
-    static void loadClasses(const std::string& filename, Timetable& timetable)
+    /**
+     * @brief Loads classes from a CSV file.
+     * @param filePath The path to the CSV file with classes.
+     * @param timetable The timetable to load the classes into.
+     */
+    static void loadClasses(const std::string& filePath, Timetable& timetable)
     {
         try {
-            csv::CSVReader reader{filename};
+            csv::CSVReader reader{filePath};
             for (auto& row : reader)
                 timetable.addClasses(
                     {Class{row["id"].get<Class::ID>(), row["duration"].get<Class::Duration>()}}

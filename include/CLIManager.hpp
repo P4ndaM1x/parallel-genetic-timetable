@@ -1,3 +1,7 @@
+/**
+ * @file CLIManager.hpp
+ * @brief The file containing CLI::Args class.
+ */
 #pragma once
 
 #include "Log.hpp"
@@ -8,10 +12,22 @@
 #include <string>
 #include <utility>
 
+/**
+ * @brief CLI11 library extension.
+ */
 namespace CLI {
 
+/**
+ * @brief The command line arguments manager.
+ */
 class Args {
 public:
+    /**
+     * @brief Prepares the command line arguments.
+     * @param argc The number of command line arguments.
+     * @param argv The array of command line arguments.
+     * @return The exit code.
+     */
     static int prepare(int argc, char* argv[])
     {
         argv = app.ensure_utf8(argv);
@@ -35,10 +51,29 @@ public:
         return 0;
     }
 
+    /**
+     * @brief The path to the directory with sample data.
+     */
     inline static std::filesystem::path sampleDataDirPath;
+
+    /**
+     * @brief The severity level of log messages.
+     */
     inline static Severity logLevel{Log::defaultSeverity};
-    inline static unsigned populationSize{200};
-    inline static unsigned numberOfGenerations{200};
+
+    /**
+     * @brief The size of the population.
+     */
+    inline static unsigned populationSize{100};
+
+    /**
+     * @brief The number of generations.
+     */
+    inline static unsigned numberOfGenerations{100};
+
+    /**
+     * @brief The mutation rate.
+     */
     inline static double mutationRate{0.01};
 
 private:

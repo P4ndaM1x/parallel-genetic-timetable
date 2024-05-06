@@ -1,4 +1,9 @@
+/**
+ * @file Timetable.cpp
+ * @brief Implementation file of the Timetable class.
+ */
 #include "Timetable.hpp"
+
 #include "Chromosome.hpp"
 
 void Timetable::addClasses(std::initializer_list<Class> classList)

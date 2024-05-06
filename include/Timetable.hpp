@@ -1,3 +1,8 @@
+/**
+ * @file Timetable.hpp
+ * @brief Header file for the Timetable class.
+ * @see Timetable.cpp
+ */
 #pragma once
 
 #include "Class.hpp"

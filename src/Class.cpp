@@ -1,3 +1,7 @@
+/**
+ * @file Class.cpp
+ * @brief Implementation file of the Class class.
+ */
 #include "Class.hpp"
 
 #include <stdexcept>

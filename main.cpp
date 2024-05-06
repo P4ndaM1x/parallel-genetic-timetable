@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Main file of the project.
+ */
+
 #include "CLIManager.hpp"
 #include "FileManager.hpp"
 #include "GeneticAlgorithm.hpp"

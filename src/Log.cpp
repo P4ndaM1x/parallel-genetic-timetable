@@ -1,4 +1,9 @@
+/**
+ * @file Log.cpp
+ * @brief Implementation file of the Log class.
+ */
 #include "Log.hpp"
+
 #include "CLIManager.hpp"
 
 #include <utility>

@@ -1,3 +1,8 @@
+/**
+ * @file Chromosome.hpp
+ * @brief Header file for the Chromosome class.
+ * @see Chromosome.cpp
+ */
 #pragma once
 
 #include "Class.hpp"

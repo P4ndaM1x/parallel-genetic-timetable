@@ -1,4 +1,9 @@
+/**
+ * @file Chromosome.cpp
+ * @brief Implementation file of the Chromosome class.
+ */
 #include "Chromosome.hpp"
+
 #include "Class.hpp"
 #include "GeneticAlgorithm.hpp"
 #include "Log.hpp"
