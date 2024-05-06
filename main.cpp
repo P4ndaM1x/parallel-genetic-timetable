@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
         node.setMessage(Timetable::serializeClasses(timetable.getClasses()));
     }
     // Broadcast timetable to worker nodes
-    node.broadcastMessage();
+    node.broadcastMessageFromMaster();
 
     GeneticAlgorithm geneticAlgorithm{
         Timetable::deserializeClasses(node.getMessage()),
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         }
 
         // Broadcast gathered chromosomes to all nodes
-        node.broadcastMessage();
+        node.broadcastMessageFromMaster();
     }
 
     if (node.isMaster()) {
