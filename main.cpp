@@ -21,8 +21,7 @@ int main(int argc, char* argv[])
 
     if (node.isMaster()) {
         Timetable timetable;
-        const auto testFilePath = CLI::Args::sampleDataDirPath / "test.csv";
-        FileManager::loadClasses(testFilePath, timetable);
+        FileManager::loadClasses(CLI::Args::dataFilePath, timetable);
         node.setMessage(Timetable::serializeClasses(timetable.getClasses()));
     }
     // Broadcast timetable to worker nodes
