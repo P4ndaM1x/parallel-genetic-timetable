@@ -30,14 +30,6 @@ else()
 
 endif(UPCXX_ENABLE)
 
-# include_directories(/opt/nfs/mpich-3.2/include)
-# include_directories(/opt/nfs/mpe2-2.4.9b/include)
-# link_directories(/opt/nfs/mpich-3.2/lib)
-# link_directories(/opt/nfs/mpe2-2.4.9b/lib)
-# link_directories(/opt/nfs/mpich-3.2/bin/lib)
-# list( APPEND CMAKE_INSTALL_RPATH /opt/nfs/mpich-3.2/lib )
-# add_link_options("-Wl,-rpath-link,/opt/nfs/mpich-3.2/lib" "-Wl,--enable-new-dtags")
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

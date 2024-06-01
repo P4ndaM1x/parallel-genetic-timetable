@@ -66,16 +66,16 @@ public:
      */
     virtual void broadcastMessageFromMaster() = 0;
 
-    // /**
-    //  * @brief Sends the message from the current node to the master node.
-    //  */
-    // virtual void sendMessageToMaster() = 0;
+    /**
+     * @brief Sends the message from the current node to the master node.
+     */
+    virtual void sendMessageToMaster() = 0;
 
-    // /**
-    //  * @brief Receives a message from a worker node if the current node is the master node.
-    //  * @param workerRank The rank of the worker node.
-    //  */
-    // virtual void receiveMessageFromWorker(const int workerRank) = 0;
+    /**
+     * @brief Receives a message from a worker node if the current node is the master node.
+     * @param workerRank The rank of the worker node.
+     */
+    virtual void receiveMessageFromWorker(const int workerRank) = 0;
 
 protected:
     /**

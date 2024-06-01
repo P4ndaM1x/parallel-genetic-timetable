@@ -53,6 +53,10 @@ public:
         }
     }
 
+    /**
+     * @brief Invokes one-sided communication to remotely put a message from the current node to the
+     * master node using UPC++.
+     */
     void sendMessageToMaster()
     {
         if (isMaster())
@@ -84,9 +88,8 @@ public:
         upcxx::delete_(messageSizePtr);
     }
 
-    void receiveMessageFromWorker(const int workerRank)
-    {
-        if (not isMaster())
-            return;
-    }
+    /**
+     * @brief Does nothing as a message is already put in the sendMessageToMaster method.
+     */
+    void receiveMessageFromWorker(const int workerRank) { }
 };
