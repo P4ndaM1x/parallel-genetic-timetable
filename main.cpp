@@ -6,13 +6,23 @@
 #include "CLIManager.hpp"
 #include "FileManager.hpp"
 #include "GeneticAlgorithm.hpp"
+#include "Timetable.hpp"
+
+#ifndef UPCXX
 #include "MPINode.hpp"
+#else
+#include "UPCNode.hpp"
+#endif
 
 int main(int argc, char* argv[])
 {
+#ifdef UPCXX
+    UPCNode node{};
+#else
     MPINode node{&argc, &argv};
-    CLI::Args::prepare(argc, argv, node);
+#endif
 
+    CLI::Args::prepare(argc, argv, node);
     srand(time(NULL) + node.getRank());
 
     const auto numberOfWorkers = node.getSize() - 1; // Master node is not a worker
@@ -20,9 +30,9 @@ int main(int argc, char* argv[])
         + (CLI::Args::populationSize % numberOfWorkers != 0); // ceil
 
     if (node.isMaster()) {
-        Timetable timetable;
-        FileManager::loadClasses(CLI::Args::dataFilePath, timetable);
-        node.setMessage(Timetable::serializeClasses(timetable.getClasses()));
+        Timetable localTimetable;
+        FileManager::loadClasses(CLI::Args::dataFilePath, localTimetable);
+        node.setMessage(Timetable::serializeClasses(localTimetable.getClasses()));
     }
     // Broadcast timetable to worker nodes
     node.broadcastMessageFromMaster();
@@ -65,11 +75,36 @@ int main(int argc, char* argv[])
 
         if (not node.isMaster()) {
             geneticAlgorithm.run();
-            // Send best population sample to master node
             node.setMessage(geneticAlgorithm.serializePopulationOfSize(populationSizePerWorker));
+#ifndef UPCXX
+            // Send best population sample to master node
             node.sendMessageToMaster();
+#endif
         }
 
+#ifdef UPCXX
+        GeneticAlgorithm::ChromosomeContainer gatheredChromosomes;
+        for (int workerRank = 1; workerRank < node.getSize(); ++workerRank) {
+
+            if (node.getRank() == workerRank) {
+                node.sendMessageToMaster();
+            }
+            upcxx::barrier();
+
+            if (node.isMaster()) {
+                // node.receiveMessageFromWorker(workerRank);
+                GeneticAlgorithm::ChromosomeContainer subPopulation
+                    = GeneticAlgorithm::deserializePopulation(node.getMessage());
+                gatheredChromosomes.insert(
+                    gatheredChromosomes.end(), subPopulation.begin(), subPopulation.end()
+                );
+            }
+            upcxx::barrier();
+        }
+        if (node.isMaster()) {
+            node.setMessage(GeneticAlgorithm::serializePopulation(gatheredChromosomes));
+        }
+#else
         if (node.isMaster()) {
             GeneticAlgorithm::ChromosomeContainer gatheredChromosomes;
             for (int workerRank = 1; workerRank < node.getSize(); ++workerRank) {
@@ -85,6 +120,7 @@ int main(int argc, char* argv[])
             }
             node.setMessage(GeneticAlgorithm::serializePopulation(gatheredChromosomes));
         }
+#endif
 
         // Broadcast gathered chromosomes to all nodes
         node.broadcastMessageFromMaster();

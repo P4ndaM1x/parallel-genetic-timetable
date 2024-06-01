@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Log.hpp"
-#include "MPINode.hpp"
+#include "Node.hpp"
 
 #include <ext/CLI11.hpp>
 #include <filesystem>
@@ -30,7 +30,7 @@ public:
      * @param mpi The instance containing information if the process is master.
      * @return The exit code.
      */
-    static int prepare(int argc, char* argv[], const MPINode& node)
+    static int prepare(int argc, char* argv[], const Node& node)
     {
         argv = app.ensure_utf8(argv);
 
@@ -116,13 +116,13 @@ private:
         return severityDescription.str();
     }
 
-    static void customParse(int argc, char* argv[], const MPINode& node)
+    static void customParse(int argc, char* argv[], const Node& node)
     {
         try {
             app.parse(argc, argv);
         } catch (const CLI::ParseError& e) {
             const auto printHelp = node.isMaster();
-            node.~MPINode();
+            node.~Node();
             if (printHelp)
                 std::exit(app.exit(e));
             std::exit(-1);
