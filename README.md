@@ -12,7 +12,7 @@ Since in-source building is forbidden, creating build directory for CMake is man
 mkdir ./build
 ```
 
-Then, the `main` binary can be easly built:
+Then, the `main` binary can be easily built:
 ```bash
 cmake -B ./build -S ./ && cmake --build ./build
 ```

@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "mpi.h"
 #include <string>
 
 /**
@@ -19,12 +18,7 @@ public:
      * @brief Checks if the function is called from the master node.
      * @return True if called from the master node, false otherwise.
      */
-    static bool isCalledFromMaster()
-    {
-        int localRank;
-        MPI_Comm_rank(MPI_COMM_WORLD, &localRank);
-        return localRank == MASTER;
-    }
+    static bool isCalledFromMaster();
 
     /**
      * @brief Constructs an MPINode object, initializing MPI.

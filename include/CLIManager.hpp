@@ -36,12 +36,14 @@ public:
 
         app.option_defaults()->always_capture_default();
 
-        app.add_option("-l,--logLevel", logLevel, prepareLogLevelDescription())
-            ->check(Range{Log::lowestSeverity, Log::highestSeverity})
-            ->capture_default_str();
-        app.add_option("-d,--dir", sampleDataDirPath, "Path to directory with sample data")
-            ->check(detail::ExistingDirectoryValidator{})
+        app.add_option("--file", dataFilePath, "Path to CSV file with class data")
+            ->check(detail::ExistingFileValidator{})
             ->required();
+        app.add_option("--logLevel", logLevel, prepareLogLevelDescription())
+            ->check(Range{Log::lowestSeverity, Log::highestSeverity});
+        app.add_option(
+            "--workerLogs", showWorkerLogs, "Show logs from all nodes, including workers"
+        );
         app.add_option(
                "-p,--population",
                populationSize,
@@ -64,14 +66,19 @@ public:
     }
 
     /**
-     * @brief The path to the directory with sample data.
+     * @brief The path to the CSV file with class data.
      */
-    inline static std::filesystem::path sampleDataDirPath;
+    inline static std::filesystem::path dataFilePath;
 
     /**
      * @brief The severity level of log messages.
      */
     inline static Severity logLevel{Log::defaultSeverity};
+
+    /**
+     * @brief The flag indicating if worker logs should be shown.
+     */
+    inline static bool showWorkerLogs{false};
 
     /**
      * @brief The size of the population at the start of each generation.

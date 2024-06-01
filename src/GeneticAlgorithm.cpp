@@ -133,7 +133,7 @@ std::string GeneticAlgorithm::serializePopulation(const ChromosomeContainer& pop
 std::string GeneticAlgorithm::serializePopulationOfSize(const unsigned size)
 {
     sortPopulationByError();
-    GeneticAlgorithm::ChromosomeContainer bestPop(population.begin(), population.begin() + size);
+    GeneticAlgorithm::ChromosomeContainer bestPop{population.begin(), population.begin() + size};
     return serializePopulation(bestPop);
 }
 

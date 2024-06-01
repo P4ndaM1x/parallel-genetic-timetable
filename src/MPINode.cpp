@@ -4,6 +4,15 @@
  */
 #include "MPINode.hpp"
 
+#include "mpi.h"
+
+bool MPINode::isCalledFromMaster()
+{
+    int localRank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &localRank);
+    return localRank == MASTER;
+}
+
 MPINode::MPINode(int* argc, char*** argv)
 {
     MPI_Init(argc, argv);
