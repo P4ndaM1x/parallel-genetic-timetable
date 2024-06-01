@@ -6,7 +6,12 @@
 #include "CLIManager.hpp"
 #include "FileManager.hpp"
 #include "GeneticAlgorithm.hpp"
+#include "Timetable.hpp"
+
+#define UPCXX
 #include "MPINode.hpp"
+#include <upcxx-extras/dist_array/dist_array.hpp>
+#include <upcxx/upcxx.hpp>
 
 int main(int argc, char* argv[])
 {
@@ -14,6 +19,30 @@ int main(int argc, char* argv[])
     CLI::Args::prepare(argc, argv, node);
 
     srand(time(NULL) + node.getRank());
+
+    const auto numberOfWorkers = node.getSize();
+    const auto populationSizePerWorker = CLI::Args::populationSize / numberOfWorkers
+        + (CLI::Args::populationSize % numberOfWorkers != 0); // ceil
+
+#ifdef UPCXX
+
+    upcxx::extras::dist_array<std::optional<Chromosome>> distributedArray{
+        numberOfWorkers * populationSizePerWorker, populationSizePerWorker
+    };
+
+    if (node.isMaster()) {
+        Timetable localTimetable;
+        FileManager::loadClasses(CLI::Args::dataFilePath, localTimetable);
+        node.setMessage(Timetable::serializeClasses(localTimetable.getClasses()));
+    }
+    // Broadcast timetable to worker nodes
+    node.broadcastMessageFromMaster();
+
+    if (node.getRank() == 1) {
+        Timetable{Timetable::deserializeClasses(node.getMessage())}.printClasses();
+    }
+
+#else
 
     const auto numberOfWorkers = node.getSize() - 1; // Master node is not a worker
     const auto populationSizePerWorker = CLI::Args::populationSize / numberOfWorkers
@@ -94,6 +123,7 @@ int main(int argc, char* argv[])
         geneticAlgorithm.getPopulation().at(0).printSolution();
     }
     Log::print("All done!\n");
+#endif
 
     return 0;
 }
