@@ -13,6 +13,6 @@ echo "sourcing cuda:"
 source /opt/nfs/config/source_cuda121.sh
 echo "success"
 
-echo "testing mpexec:"
+echo "testing mpiexec:"
 mpiexec -f nodes -n 16 uname -n | sort
 echo "complete"

@@ -8,23 +8,29 @@
 #include "GeneticAlgorithm.hpp"
 #include "Timetable.hpp"
 
-#define UPCXX
+#ifndef UPCXX
 #include "MPINode.hpp"
+#else
+#include "UPCNode.hpp"
 #include <upcxx-extras/dist_array/dist_array.hpp>
-#include <upcxx/upcxx.hpp>
+#endif
 
 int main(int argc, char* argv[])
 {
+#ifdef UPCXX
+    UPCNode node{};
+#else
     MPINode node{&argc, &argv};
+#endif
     CLI::Args::prepare(argc, argv, node);
 
     srand(time(NULL) + node.getRank());
 
+#ifdef UPCXX
+
     const auto numberOfWorkers = node.getSize();
     const auto populationSizePerWorker = CLI::Args::populationSize / numberOfWorkers
         + (CLI::Args::populationSize % numberOfWorkers != 0); // ceil
-
-#ifdef UPCXX
 
     upcxx::extras::dist_array<std::optional<Chromosome>> distributedArray{
         numberOfWorkers * populationSizePerWorker, populationSizePerWorker

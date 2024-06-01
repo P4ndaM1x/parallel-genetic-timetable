@@ -14,7 +14,7 @@ mkdir ./build
 
 Then, the `main` binary can be easily built:
 ```bash
-cmake -B ./build -S ./ && cmake --build ./build
+cmake -D UPCXX_ENABLE=ON -B ./build -S ./ && cmake --build ./build
 ```
 
 And run:
