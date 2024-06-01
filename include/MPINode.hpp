@@ -54,8 +54,8 @@ public:
     }
 
     /**
-     * @brief Receives a message from a worker node if the current node is the master node using MPI
-     * communication.
+     * @brief Receives a message from a worker node (if the current node is the master node)
+     * using MPI communication.
      * @param workerRank The rank of the worker node.
      */
     void receiveMessageFromWorker(const int workerRank)

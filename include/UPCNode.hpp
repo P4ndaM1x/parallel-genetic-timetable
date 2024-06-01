@@ -38,7 +38,7 @@ public:
         if (isMaster()) {
             messageSizePtr = upcxx::new_<int>(message.size);
             messageContentPtr = upcxx::new_array<char>(message.size);
-            std::strcpy(messageContentPtr.local(), message.content.c_str());
+            std::strncpy(messageContentPtr.local(), message.content.c_str(), message.size);
         }
 
         messageSizePtr = upcxx::broadcast(messageSizePtr, MASTER).wait();
@@ -53,7 +53,40 @@ public:
         }
     }
 
-    void sendMessageToMaster() { }
+    void sendMessageToMaster()
+    {
+        if (isMaster())
+            return;
 
-    void receiveMessageFromWorker(const int workerRank) { }
+        message.size = message.content.size();
+        upcxx::global_ptr<int> messageSizePtr = upcxx::new_<int>(message.size);
+        upcxx::global_ptr<char> messageContentPtr = upcxx::new_array<char>(message.size);
+        std::strncpy(messageContentPtr.local(), message.content.c_str(), message.size);
+
+        upcxx::rpc(
+            MASTER,
+            [this](
+                upcxx::global_ptr<int> messageSizePtr, upcxx::global_ptr<char> messageContentPtr
+            ) {
+                const auto messageSize = upcxx::rget(messageSizePtr).wait();
+                std::string messageContent;
+                messageContent.resize(messageSize);
+                upcxx::rget(messageContentPtr, messageContent.data(), messageSize).wait();
+                message.size = messageContent.size();
+                message.content = messageContent;
+            },
+            messageSizePtr,
+            messageContentPtr
+        )
+            .wait();
+
+        upcxx::delete_array(messageContentPtr);
+        upcxx::delete_(messageSizePtr);
+    }
+
+    void receiveMessageFromWorker(const int workerRank)
+    {
+        if (not isMaster())
+            return;
+    }
 };

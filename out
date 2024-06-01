@@ -1,0 +1,92 @@
+Ignoring -ssh-servers setting: only applies to UDP and IBV conduits, not smp
+
+INF | main(...) | Best chromosomes after gathering step 1/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 4
+INF | main(...) | 3. best chromosome error: 4
+INF | main(...) | Best chromosomes after gathering step 2/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 4
+INF | main(...) | Best chromosomes after gathering step 3/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 4/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 5/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 6/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 7/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 8/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 9/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+INF | main(...) | Best chromosomes after gathering step 10/10:
+INF | main(...) | 1. best chromosome error: 3
+INF | main(...) | 2. best chromosome error: 3
+INF | main(...) | 3. best chromosome error: 3
+
+Timetable
+------------------------
+ 0. [10]
+ 1. [10]
+ 2. [10]
+ 3. [10]
+ 4. [4][10]
+ 5. [4]
+ 6. [4]
+ 7. [4]
+------------------------
+ 8. [5]
+ 9. [5]
+10. [5]
+11. [5]
+12. [5]
+13. [3]
+14. [2][3]
+15. [2][3]
+------------------------
+16. [1]
+17. [9]
+18. [6]
+19. [6]
+20. [6]
+21. [6]
+22. [6]
+23. [6]
+------------------------
+24. [8]
+25. [8]
+26. [8]
+27. [8]
+28. [8]
+29. [8]
+30. [8]
+31. [8]
+------------------------
+32. [7]
+33. [7]
+34. [7]
+35. [7]
+36. [7]
+37. [7]
+38. [7]
+39. 
+------------------------
+
+INF | main(...) | All done!
