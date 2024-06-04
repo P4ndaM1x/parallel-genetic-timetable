@@ -17,16 +17,14 @@ if(UPCXX_ENABLE)
   add_compile_definitions(UPCXX)
   find_package(UPCXX REQUIRED)
   set(CMAKE_CXX_COMPILER upcxx)
-  set(CMAKE_CXX_FLAGS "-O2")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
   set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
-  add_compile_options(${CMAKE_CXX_FLAGS})
   
 else()
 
-  set(CMAKE_CXX_COMPILER "/home/nfs/._off_mpich-4.0.1/bin/mpicxx")
-  set(CMAKE_CXX_FLAGS "-Wall")
+  set(CMAKE_CXX_COMPILER "/home/nfs/mpich-4.2.1/bin/mpicxx")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2")
   set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
-  add_compile_options(${CMAKE_CXX_FLAGS})
 
 endif(UPCXX_ENABLE)
 
