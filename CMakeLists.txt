@@ -7,12 +7,12 @@ add_custom_target(clear
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}
 )
 
-add_custom_target(test
-    COMMAND mpiexec -n 2 ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
-)
-
 option(UPCXX_ENABLE "Use UPC instead of MPI" ON)
 if(UPCXX_ENABLE)
+
+  add_custom_target(test
+      COMMAND upcxx-run -n 8 $$\(upcxx-nodes ../nodes\) ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
+  )
 
   add_compile_definitions(UPCXX)
   find_package(UPCXX REQUIRED)
@@ -21,6 +21,10 @@ if(UPCXX_ENABLE)
   set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
   
 else()
+
+  add_custom_target(test
+      COMMAND mpiexec -n 8 ./main --config ${PROJECT_SOURCE_DIR}/test-config.ini
+  )
 
   set(CMAKE_CXX_COMPILER "/home/nfs/mpich-4.2.1/bin/mpicxx")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O2")
