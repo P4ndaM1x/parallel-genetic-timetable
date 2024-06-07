@@ -7,7 +7,7 @@ echo "sourcing upcxx:"
 source /opt/nfs/config/source_upcxx_2023.9.sh
 echo "success"
 echo "sourcing mpich:"
-source /opt/nfs/config/source_mpich401.sh
+source /opt/nfs/config/source_mpich421.sh
 echo "success"
 echo "sourcing cuda:"
 source /opt/nfs/config/source_cuda121.sh
