@@ -18,8 +18,10 @@ int main(int argc, char* argv[])
 {
 #ifdef UPCXX
     UPCNode node{};
+    Log::print("Executing with UPC++ as a backend");
 #else
     MPINode node{&argc, &argv};
+    Log::print("Executing with MPI as a backend");
 #endif
 
     CLI::Args::prepare(argc, argv, node);
